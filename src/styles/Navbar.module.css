@@ -1,0 +1,214 @@
+/* Make the font in the file as Poppins */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
+}
+
+.navbarWrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FCBAB7;
+    padding: 10px 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 150px;
+    margin-right: 10px;
+    margin-left: 100px;
+}
+
+.brandName {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+}
+
+.navLinks {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+
+.navLinks li {
+    margin: 0 15px;
+}
+
+.navLinks a {
+    font-family: 'Poppins', sans-serif;
+    padding: 10px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-size: 1.3rem;
+    font-weight: 500;
+    transition: color 0.3s ease, background-color 0.4s ease;
+}
+
+.navLinks a:hover {
+    background-color: #ffffff;
+    color: #ff6a00; /* Highlight color */
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    color: rgb(0, 0, 0);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.icons i:hover {
+    color: #ff6a00;
+}
+
+.curve {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.curve svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-width: 100%;
+}
+
+/* Menu Button for Mobile View */
+.menuButton {
+    display: none;
+    font-size: 1.5rem;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    z-index: 3;
+}
+
+/* Sliding Sidebar for Mobile View */
+.navLinks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200px;
+    background-color: #ff9d98;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    transform: translateX(-100%);
+    z-index: 2;
+}
+
+.navLinks.showMenu {
+    transform: translateX(0);
+}
+
+.navLinks li {
+    margin: 15px 0;
+}
+
+.navLinks a {
+    font-size: 1.2rem;
+    padding: 10px 0;
+}
+
+.overlayTitle {
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #a94c45;
+    text-align: center;
+    z-index: 1; 
+    white-space: nowrap; 
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.5); 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    
+
+}
+
+.overlayTitle span {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 1.5px;
+
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .menuButton {
+        display: block;
+    }
+
+    .navLinks {
+        display: flex;
+    }
+
+    .icons {
+        display: none;
+    }
+    .logo{
+        margin-left: 10px;
+    }
+    .overlayTitle {
+        top: 80%; /* Move it higher */
+        left: 33%; /* Move it slightly to the left */
+        font-size: 1.4rem; /* Adjust font size for smaller screens */
+    }
+}
+
+/* Ensure the navbar remains visible for laptop view */
+@media (min-width: 769px) {
+    .menuButton {
+        display: none; /* Hide the menu button for larger screens */
+    }
+
+    .navLinks {
+        position: static; /* Reset position for larger screens */
+        flex-direction: row; /* Horizontal layout */
+        transform: none; /* No sliding effect */
+        height: auto;
+        width: auto;
+        background-color: transparent; /* No background for larger screens */
+    }
+
+    .navLinks li {
+        margin: 0 15px;
+    }
+
+    .navLinks a {
+        font-size: 1.3rem;
+        padding: 10px 10px;
+    }
+
+    .icons {
+        display: flex; /* Show icons for larger screens */
+    }
+    
+}
+

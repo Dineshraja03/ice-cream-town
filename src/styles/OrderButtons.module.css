@@ -1,0 +1,83 @@
+.button {
+  text-decoration: none; /* Remove underline from links */
+  color: #fff; /* White text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 12px 25px; /* Padding for the button */
+  font-size: 16px; /* Font size */
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.button:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.button-container {
+  
+  display: flex; /* Flexbox for alignment */
+  justify-content: center; /* Center the buttons */
+  margin: 20px 0; /* Margin around the button container */
+}
+
+.button-link {
+  text-decoration: none; /* Remove underline from links */
+}
+
+.orderButtons {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Space between buttons */
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
+
+/* Swiggy Button */
+.swiggyButton {
+  background-color: #ff5200; /* Bright yellow for Swiggy */
+}
+
+.swiggyButton:hover {
+  background-color: #ff51008d; /* Darker yellow on hover */
+}
+
+/* Zomato Button */
+.zomatoButton {
+  background-color: #e23745; /* Red for Zomato */
+}
+
+
+.zomatoButton:hover {
+  background-color: rgb(161, 0, 0); /* Darker red on hover */
+}
+
+.call {
+  background-color: #4CAF50; /* Green for Call */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .buttonContainer {
+    
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    gap: 10px; /* Reduce gap between buttons */
+  }
+
+  .button {
+    
+    width: 100%; /* Full width for buttons on smaller screens */
+    text-align: center;
+  }
+}

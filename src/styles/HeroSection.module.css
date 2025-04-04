@@ -1,0 +1,181 @@
+.heroSection {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh; /* Full viewport height */
+    padding: 0 50px;
+    background-color: #f9f9f900;
+    overflow: hidden;
+    z-index: 10;
+    top: 220px;
+    left: 85px;
+
+}
+
+.heroSection .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f9f9f9;
+    z-index: 1;
+}
+
+.heroSection .content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 20px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.textContent {
+    flex: 1;
+    color: #333;
+    text-align: left;
+    z-index: 11;
+}
+
+.textContent h1 {
+    font-size: 3.5rem;
+    margin: 0 0 20px;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.2;
+}
+
+.textContent p {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.textContent .ctaButton {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(to right, #ff5722, #ff9800);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.textContent .ctaButton:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 15px rgba(255, 87, 34, 0.5);
+}
+
+.carousel {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+    padding-left: 100px;
+}
+
+.wheel {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(0deg);
+    animation: spin 9s linear infinite;
+}
+
+.carouselItem {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    transform-origin: center center;
+    transition: transform 0.5s ease;
+}
+
+.carouselItem img {
+    width: 100px;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.carouselItem.active img {
+    transform: scale(1.4);
+}
+
+/* Animation for fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for the wheel rotation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+/* Existing styles... */
+
+@media (max-width: 768px) {
+    html, body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
+    }
+
+    .heroSection {
+        margin-top: 200px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto; /* Allow content to adjust dynamically */
+        padding: 20px;
+        top: 50px; /* Adjust positioning for mobile */
+        left: 0; /* Center-align for mobile */
+        z-index: 0;
+    }
+
+    .textContent {
+        text-align: center; /* Center-align text for mobile */
+        margin-bottom: 20px;
+    }
+
+    .textContent h1 {
+        font-size: 2.5rem; /* Reduce font size for mobile */
+        line-height: 1.3;
+    }
+
+    .textContent p {
+        font-size: 1.2rem; /* Adjust paragraph font size */
+    }
+
+    .textContent .ctaButton {
+        font-size: 1rem; /* Adjust button size */
+        padding: 10px 20px;
+    }
+
+    .carousel {
+        display: none; /* Hide the entire carousel on mobile */
+    }
+}

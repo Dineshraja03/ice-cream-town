@@ -1,0 +1,306 @@
+.container {
+    
+    padding: 40px;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10px; 
+    position: relative; 
+    top: -80px; 
+}
+
+/* Homegrown Indian Brand Section */
+.homegrownSection {
+    margin-top: 100px;
+    width: 100%;
+    text-align: center;
+    background-color: #ff6f61; /* Red background */
+    color: #fff; /* White text */
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+.homegrownTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.homegrownSubtitle {
+    font-size: 1.2rem;
+    color: #000; /* Black text for subtitle */
+    background-color: #fff; /* White background for subtitle */
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.homegrownSubtitle strong {
+    font-weight: bold;
+    color: #000;
+}
+
+/* About Us Content */
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    gap: 20px;
+}
+
+.textContent {
+    flex: 1;
+    max-width: 600px;
+    text-align: left;
+}
+
+.title {
+    font-size: 2.5rem;
+    color: #ff6f61;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.description {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-family: 'Roboto', sans-serif;
+    justify-content: center;
+    text-align:justify;
+    padding-right: 30px;
+    animation: fadeIn 1.5s ease-in-out;
+
+
+}
+
+/* Specialties Section */
+.specialties {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.specialty {
+    margin-top: 200px;
+    width: 200px;
+    margin: 10px;
+    border: 2px solid #ff6f61;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    background-color: #fff;
+    position: relative;
+    text-align: center;
+    padding: 20px;
+}
+
+.specialty:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #ff6f61;
+}
+
+.iconContainer {
+    font-size: 3rem;
+    color: #ff6f61;
+    margin-bottom: 10px;
+    transition: color 0.3s;
+}
+
+.specialty:hover .iconContainer {
+    color: #fff;
+}
+
+.specialtyName {
+    font-size: 1.5rem;
+    color: #ff6f61;
+    margin: 10px 0;
+    font-family: 'Poppins', sans-serif;
+    transition: color 0.3s;
+}
+
+.specialty:hover .specialtyName {
+    color: #fff;
+}
+
+.specialtyDescription {
+    font-size: 1rem;
+    color: #666;
+    padding: 0 10px 10px;
+    font-family: 'Roboto', sans-serif;
+    transition: color 0.3s;
+}
+
+.specialty:hover .specialtyDescription {
+    color: #fff;
+}
+
+.specialtiesList {
+    list-style-type: disc;
+    padding-left: 20px;
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.videoContent {
+    flex: 1;
+    min-width: 650px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Cards Section */
+.cardsSection {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.card {
+    height: 100px;
+    width: 250px;
+    padding: 20px;
+    border: 2px solid #ff6f61;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #fff;
+    transition: transform 0.3s, box-shadow 0.3s;
+    
+}
+
+.card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cardIconContainer {
+    font-size: 3rem;
+    color: #ff6f61;
+    margin-bottom: 10px;
+}
+
+.cardTitle {
+    font-size: 1.2rem;
+    color: #343434;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .textContent {
+        text-align: center;
+        padding-right: 0;
+    }
+
+    .specialtiesList {
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .videoContent {
+        min-width: 100%;
+    }
+
+    .video {
+        width: 100%;
+        height: auto;
+    }
+
+    .cardsSection {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .card {
+        width: 90%; /* Adjust card width for smaller screens */
+        height: auto; /* Allow height to adjust dynamically */
+    }
+
+    .specialties {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .specialty {
+        width: 90%; /* Adjust specialty card width for smaller screens */
+        margin: 20px 0;
+    }
+
+    .homegrownSection {
+        padding: 15px 10px;
+    }
+
+    .homegrownTitle {
+        font-size: 1.2rem;
+    }
+
+    .homegrownSubtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .description {
+        font-size: 1rem;
+    }
+
+    .cardTitle {
+        font-size: 1rem;
+    }
+
+    .specialtyName {
+        font-size: 1.2rem;
+    }
+
+    .specialtyDescription {
+        font-size: 0.9rem;
+    }
+}

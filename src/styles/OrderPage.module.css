@@ -1,0 +1,51 @@
+.orderPage {
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align content towards the top */
+    padding: 10px 20px; /* Reduced padding to move content higher */
+    background: #f9f9f9; /* Gradient background */
+    min-height: 100vh;
+    color: #ff6f61;
+    font-family: 'Poppins', sans-serif;
+}
+
+.heroSection {
+    text-align: center;
+    margin-bottom: 20px; /* Reduced margin to move content higher */
+    margin-top: 10px; /* Minimal margin from the top */
+}
+
+.pageTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px; /* Reduced margin to move content higher */
+
+}
+
+.pageDescription {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+
+}
+
+.orderSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .pageTitle {
+        font-size: 2rem;
+    }
+
+    .pageDescription {
+        font-size: 1rem;
+    }
+}
