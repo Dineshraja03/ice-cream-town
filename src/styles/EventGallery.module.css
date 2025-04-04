@@ -1,6 +1,7 @@
 .gallery {
     padding: 20px;
     text-align: center;
+  
 }
 
 h2 {
@@ -8,6 +9,7 @@ h2 {
     color: #ff6f61;
     margin-bottom: 20px;
     font-family: 'Poppins', sans-serif;
+  
 }
 
 .imageGrid {
@@ -15,6 +17,7 @@ h2 {
     grid-template-columns: repeat(3, 1fr); /* 3 reels per row */
     gap: 20px;
     justify-items: center;
+    
 }
 
 .reelContainer {
@@ -23,6 +26,7 @@ h2 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     overflow: hidden;
+    
 }
 
 /* Responsive Design */

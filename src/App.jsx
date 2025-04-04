@@ -7,6 +7,7 @@ import ContactPage from './pages/ContactPage';
 import CelebrationBookingPage from './pages/CelebrationBookingPage';
 import AboutPage from './pages/AboutPage';
 import EventGallery from './components/EventGallery';
+import Footer from './components/Footer';
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
             </Routes>
+            <Footer /> {/* Add Footer here */}
         </Router>
     );
 };

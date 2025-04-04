@@ -8,6 +8,7 @@
   font-family: 'Poppins', sans-serif;
   cursor: pointer; /* Pointer cursor on hover */
   transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition for hover effects */
+  text-align: center; /* Center text inside the button */
 }
 
 .button:hover {
@@ -15,7 +16,6 @@
 }
 
 .button-container {
-  
   display: flex; /* Flexbox for alignment */
   justify-content: center; /* Center the buttons */
   margin: 20px 0; /* Margin around the button container */
@@ -39,18 +39,19 @@
 
 .buttonContainer {
   display: flex;
-  justify-content: center;
+  justify-content: center; /* Center buttons horizontally */
+  align-items: center; /* Center buttons vertically */
   gap: 15px; /* Space between buttons */
   flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
 }
 
 /* Swiggy Button */
 .swiggyButton {
-  background-color: #ff5200; /* Bright yellow for Swiggy */
+  background-color: #ff5200; /* Bright orange for Swiggy */
 }
 
 .swiggyButton:hover {
-  background-color: #ff51008d; /* Darker yellow on hover */
+  background-color: #ff51008d; /* Darker orange on hover */
 }
 
 /* Zomato Button */
@@ -58,26 +59,31 @@
   background-color: #e23745; /* Red for Zomato */
 }
 
-
 .zomatoButton:hover {
   background-color: rgb(161, 0, 0); /* Darker red on hover */
 }
 
+/* Call Button */
 .call {
   background-color: #4CAF50; /* Green for Call */
+}
+
+.call:hover {
+  background-color: #3e8e41; /* Darker green on hover */
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .buttonContainer {
-    
     flex-direction: column; /* Stack buttons vertically on smaller screens */
     gap: 10px; /* Reduce gap between buttons */
+    align-items: center; /* Center buttons horizontally */
+    padding-right: 40px;
   }
 
   .button {
-    
     width: 100%; /* Full width for buttons on smaller screens */
-    text-align: center;
+    max-width: 300px; /* Limit the width of buttons */
+    text-align: center; /* Center text inside the button */
   }
 }

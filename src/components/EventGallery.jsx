@@ -97,7 +97,7 @@ const EventGallery = () => {
                     <blockquote
                         className="instagram-media"
                         data-instgrm-captioned
-                        data-instgrm-permalink="https://www.instagram.com/reel/DHWbe1vzOQN/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
+                        data-instgrm-permalink="https://www.instagram.com/reel/DHWbe1vzOQN/"
                         data-instgrm-version="14"
                         style={{
                             background: '#FFF',
@@ -113,7 +113,7 @@ const EventGallery = () => {
                     >
                         <div style={{ padding: '16px' }}>
                             <a
-                                href="https://www.instagram.com/reel/DHWbe1vzOQN/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
+                                href="https://www.instagram.com/reel/DHWbe1vzOQN/"
                                 style={{
                                     background: '#FFFFFF',
                                     lineHeight: '0',

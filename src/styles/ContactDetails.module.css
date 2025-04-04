@@ -3,10 +3,10 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #fcbab7; /* Attractive background color */
+    background-color: #ffffff; /* Attractive background color */
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    color: #ffffff; /* White text for contrast */
+    color: #7e7e7e; /* White text for contrast */
     max-width: 600px;
     margin: 20px auto;
     margin-top: 10px; 
@@ -17,7 +17,7 @@
 .contactDetails h2 {
     font-size: 28px;
     font-weight: bold;
-    color: #fff;
+    color: #ff6f61;
     margin-bottom: 20px;
     font-family: 'Poppins', sans-serif;
     text-transform: uppercase;
