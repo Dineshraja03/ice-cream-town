@@ -122,8 +122,8 @@ html, body {
 
 .navLinks li {
     margin: 15px 0;
-    border-color: aqua;
-    border-radius: 2px;
+    /* border-color: aqua;
+    border-radius: 2px; */
 }
 
 .navLinks a {
@@ -139,27 +139,55 @@ html, body {
     font-family: 'Poppins', sans-serif;
     font-size: 2.5rem;
     font-weight: bold;
-    color: #a94c45;
+    color: #ffffff;
     text-align: center;
     z-index: 1; 
-    white-space: nowrap; 
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: rgba(255, 255, 255, 0.5); 
-    border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-    
-
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
+                 0 0 20px rgba(255, 255, 255, 0.6), 
+                 0 0 30px rgba(255, 255, 255, 0.4), 
+                 0 0 40px #ff6f61, 
+                 0 0 70px #ff6f61, 
+                 0 0 80px #ff6f61, 
+                 0 0 100px #ff6f61;
+    animation: glitter 2s infinite alternate;
 }
 
 .overlayTitle span {
     display: inline-block;
     color: rgba(255, 255, 255, 0.8);
     margin: 0 1.5px;
-
 }
 
-
+/* Glitter Animation */
+@keyframes glitter {
+    0% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
+                     0 0 20px rgba(255, 255, 255, 0.6), 
+                     0 0 30px rgba(255, 255, 255, 0.4), 
+                     0 0 40px #ff6f61, 
+                     0 0 70px #ff6f61, 
+                     0 0 80px #ff6f61, 
+                     0 0 100px #ff6f61;
+    }
+    50% {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 1), 
+                     0 0 25px rgba(255, 255, 255, 0.8), 
+                     0 0 35px rgba(255, 255, 255, 0.6), 
+                     0 0 45px #ff6f61, 
+                     0 0 75px #ff6f61, 
+                     0 0 85px #ff6f61, 
+                     0 0 105px #ff6f61;
+    }
+    100% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
+                     0 0 20px rgba(255, 255, 255, 0.6), 
+                     0 0 30px rgba(255, 255, 255, 0.4), 
+                     0 0 40px #ff6f61, 
+                     0 0 70px #ff6f61, 
+                     0 0 80px #ff6f61, 
+                     0 0 100px #ff6f61;
+    }
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -173,10 +201,11 @@ html, body {
     }
     .navLinks li {
         padding: 5px 15px;
-        border-color: rgba(0, 0, 0, 0.55);
+        border-color: rgba(255, 255, 255, 0.849);
         border-radius: 5px;
-        border-style: solid;
-        border-width: 2px;
+        border-left-style:solid;
+        border-width: 8px;
+        
     }
  
 
