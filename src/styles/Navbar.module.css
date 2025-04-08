@@ -218,7 +218,7 @@ html, body {
     }
     .overlayTitle {
         top: 80%; /* Move it higher */
-        left: 33%; /* Move it slightly to the left */
+        left: 36%; /* Move it slightly to the left */
         font-size: 1.4rem; /* Adjust font size for smaller screens */
     }
 }

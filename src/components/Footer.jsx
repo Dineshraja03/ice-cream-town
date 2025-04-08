@@ -80,7 +80,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className={styles.copyright}>
-                    <p>&copy; 2025 Scoop Ice Cream Town. All rights reserved.</p>
+                    <p>&copy; 2025 Ice Cream Town. All rights reserved.</p>
                 </div>
             </footer>
         </div>

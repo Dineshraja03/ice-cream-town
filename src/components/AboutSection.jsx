@@ -1,12 +1,21 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styles from '../styles/AboutSection.module.css';
-import { FaIceCream, FaPalette, FaBirthdayCake, FaCookie } from 'react-icons/fa'; // Importing icons from react-icons
-import videoSrc from '../assets/about.mp4'; // Replace with the actual video path
-import {  FaCity, FaIndustry, FaTheaterMasks } from 'react-icons/fa'; // Importing icons from react-icons
+import {
+    FaIceCream,
+    FaPalette,
+    FaBirthdayCake,
+    FaCookie,
+    FaCity,
+    FaIndustry,
+    FaTheaterMasks
+} from 'react-icons/fa';
+import videoSrc from '../assets/About.webm';
 
 const AboutSection = () => {
     const [activeCard, setActiveCard] = useState(null);
     const cardRefs = useRef([]);
+    const videoRef = useRef(null);
+    const [userInteracted, setUserInteracted] = useState(false);
 
     const specialties = [
         {
@@ -52,9 +61,9 @@ const AboutSection = () => {
 
     useEffect(() => {
         const observerOptions = {
-            root: null, // Use the viewport as the root
+            root: null,
             rootMargin: '0px',
-            threshold: 0.5, // Trigger when 50% of the card is visible
+            threshold: 0.5,
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -65,50 +74,58 @@ const AboutSection = () => {
             });
         }, observerOptions);
 
-        // Observe each card
         cardRefs.current.forEach((card) => {
             if (card) observer.observe(card);
         });
 
         return () => {
-            // Cleanup observer on component unmount
             cardRefs.current.forEach((card) => {
                 if (card) observer.unobserve(card);
             });
         };
     }, []);
 
-    return (
-        <div className={styles.container}>
-            {/* Cards Section */}
-            
+    const handleUserInteraction = () => {
+        if (videoRef.current && !userInteracted) {
+            videoRef.current.muted = false;
+            videoRef.current.volume = 1;
+            videoRef.current.play();
+            setUserInteracted(true);
+        }
+    };
 
+    return (
+        <div className={styles.container} onClick={handleUserInteraction}>
             {/* About Us Content */}
             <div className={styles.content}>
                 <div className={styles.textContent}>
                     <h2 className={styles.title}>About Us</h2>
                     <p className={styles.description}>
-                        Welcome to Scoop Ice Cream Town ! We are passionate about crafting the finest ice creams and desserts to bring sweet moments to your life. Our specialties include a wide variety of flavors, made with love and the freshest ingredients.
+                        Welcome to Scoop Ice Cream Town! We are passionate about crafting the finest ice creams and desserts to bring sweet moments to your life. Our specialties include a wide variety of flavors, made with love and the freshest ingredients.
                     </p>
                 </div>
 
-
-
-
-                
                 <div className={styles.videoContent}>
-                    <video className={styles.video} 
-                        unmuted
+                    <video
+                        className={styles.video}
+                        ref={videoRef}
                         autoPlay
-                        playsInline >
-                        <source src={videoSrc} type="video/mp4"/>
+                        unmuted
+                        playsInline
+                        loop
+                        // preload="auto"
+                        // controls
+                    >
+                        <source src={videoSrc} type="video/webm" />
                         Your browser does not support the video tag.
                     </video>
+                    {!userInteracted && (
+                        <div className={styles.tapToUnmute}>Tap to unmute 🔊</div>
+                    )}
                 </div>
             </div>
 
-
-
+            {/* Cards Section */}
             <div className={styles.cardsSection}>
                 {cards.map((card, index) => (
                     <div
@@ -125,7 +142,7 @@ const AboutSection = () => {
                 ))}
             </div>
 
-
+            {/* Specialties Section */}
             <div className={styles.specialties}>
                 {specialties.map((specialty, index) => (
                     <div key={index} className={styles.specialty}>
@@ -138,7 +155,7 @@ const AboutSection = () => {
 
             {/* Homegrown Indian Brand Section */}
             <div className={styles.homegrownSection}>
-                <h3 className={styles.homegrownTitle}>HOMEGROWN OWN BRAND</h3>
+                <h3 className={styles.homegrownTitle}>HOME GROWN BRAND</h3>
                 <p className={styles.homegrownSubtitle}>Over <strong>1000+</strong> Happy Customers</p>
             </div>
         </div>
