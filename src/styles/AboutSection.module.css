@@ -237,6 +237,7 @@
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    box-sizing: border-box; /* Add this */
 }
 
 .collageTitle {
@@ -267,6 +268,8 @@
     grid-template-rows: repeat(2, 200px);
     gap: 15px;
     padding: 5px;
+    width: 100%; /* Add this */
+    box-sizing: border-box; /* Add this */
 }
 
 .collageItem {
@@ -354,6 +357,54 @@
     .collageTitle {
         font-size: 1.8rem;
     }
+
+    .collageSection {
+        padding: 15px;
+        width: 95%; /* Set percentage width */
+        margin-left: auto; /* Center it */
+        margin-right: auto; /* Center it */
+    }
+    
+    .collageContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 180px);
+        gap: 10px;
+        padding: 0; /* Remove padding */
+    }
+    
+    /* Other styles remain the same */
+}
+
+@media (max-width: 480px) {
+    .collageContainer {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 180px);
+        gap: 10px;
+    }
+    
+    .large, .medium, .small {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+    
+    .collageTitle {
+        font-size: 1.5rem;
+    }
+
+    .collageSection {
+        width: 95%;
+        padding: 10px;
+    }
+    
+    .collageContainer {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 180px);
+        gap: 10px;
+        padding: 0; /* Remove padding */
+        width: 100%; /* Ensure full width */
+    }
+    
+    /* Other styles remain the same */
 }
 
 /* Responsive Design */
@@ -421,23 +472,6 @@
 
     .homegrownSubtitle {
         font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .collageContainer {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(5, 180px);
-        gap: 10px;
-    }
-    
-    .large, .medium, .small {
-        grid-column: span 1;
-        grid-row: span 1;
-    }
-    
-    .collageTitle {
-        font-size: 1.5rem;
     }
 }
 

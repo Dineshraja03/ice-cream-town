@@ -1,7 +1,8 @@
 .gallery {
     padding: 20px;
     text-align: center;
-  
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 h2 {
@@ -10,6 +11,14 @@ h2 {
     margin-bottom: 20px;
     font-family: 'Poppins', sans-serif;
   
+}
+
+.reelTitle {
+    font-size: 2rem;
+    color: #ff6f61;
+    margin-bottom: 20px;
+    margin-top: 50px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .imageGrid {
@@ -29,6 +38,116 @@ h2 {
     
 }
 
+/* Image Collage Section - copied from AboutSection.module.css */
+.collageSection {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.collageTitle {
+    font-size: 2rem;
+    color: #ff6f61;
+    text-align: center;
+    margin-bottom: 25px;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.collageTitle:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #ff6f61;
+    border-radius: 2px;
+}
+
+.collageContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 200px);
+    gap: 15px;
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.collageItem {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.collageItem:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.collageItem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.collageItem:hover img {
+    transform: scale(1.1);
+}
+
+.large {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.medium {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.small {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    padding: 15px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.collageItem:hover .overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.overlay p {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .imageGrid {
@@ -36,6 +155,34 @@ h2 {
     }
 
     h2 {
+        font-size: 1.8rem;
+    }
+
+    .collageSection {
+        padding: 15px;
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .collageContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 180px);
+        gap: 10px;
+        padding: 0;
+    }
+    
+    .large {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+    
+    .medium {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+    
+    .reelTitle {
         font-size: 1.8rem;
     }
 }
@@ -47,5 +194,44 @@ h2 {
 
     h2 {
         font-size: 1.5rem;
+    }
+
+    .collageSection {
+        width: 95%;
+        padding: 10px;
+    }
+    
+    .collageContainer {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 180px);
+        gap: 10px;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .large, .medium, .small {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+    
+    .collageTitle {
+        font-size: 1.5rem;
+    }
+    
+    .reelContainer {
+        max-width: 100%;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .reelTitle {
+        font-size: 1.5rem;
+    }
+    
+    /* Always show overlay on mobile for better UX */
+    .collageItem .overlay {
+        opacity: 1;
+        transform: translateY(0);
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
     }
 }

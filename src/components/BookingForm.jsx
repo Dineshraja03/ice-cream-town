@@ -31,7 +31,7 @@ const BookingForm = () => {
         const encodedMessage = encodeURIComponent(message);
 
         // WhatsApp API URL
-        const whatsappUrl = `https://wa.me/919150256608?text=${encodedMessage}`;
+        const whatsappUrl = `https://wa.me/919087677680?text=${encodedMessage}`;
 
         // Open the WhatsApp chat in a new tab
         window.open(whatsappUrl, '_blank');

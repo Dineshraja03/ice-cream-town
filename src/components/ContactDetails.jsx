@@ -7,9 +7,9 @@ const ContactDetails = () => {
         <div className={styles.contactDetails}>
             <h2>Contact Us</h2>
             <div className={styles.contactButtons}>
-                <a href="tel:+9629691090" className={styles.button}>
+                <a href="tel:+919087677680" className={styles.button}>
                     <FaPhoneAlt className={styles.icon} />
-                    Call Us: +91 9629691090
+                    Call Us: +91 9087677680
                 </a>
                 <a href="tel:+919087677680" className={styles.button}>
                     <FaPhoneAlt className={styles.icon} />

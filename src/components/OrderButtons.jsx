@@ -23,7 +23,7 @@ const OrderButtons = () => {
                     Order on Zomato
                 </a>
                 <a
-                    href="tel:+919442222222"
+                    href="tel:+919087677680"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`${styles.button} ${styles.call}`}

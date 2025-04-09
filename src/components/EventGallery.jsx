@@ -1,5 +1,20 @@
 import React, { useEffect } from 'react';
 import styles from '../styles/EventGallery.module.css';
+import collage1 from '../assets/store/1.jpg';
+import collage2 from '../assets/store/2.jpg';
+import collage3 from '../assets/store/3.jpg';
+import collage4 from '../assets/store/4.jpg';
+import collage5 from '../assets/store/5.jpg';
+import collage6 from '../assets/store/6.jpg';
+import collage7 from '../assets/store/7.jpg';
+import collage8 from '../assets/store/8.jpg';
+import collage9 from '../assets/store/9.jpg';
+import collage10 from '../assets/store/10.jpg';
+import collage11 from '../assets/store/11.jpg';
+import collage12 from '../assets/store/12.jpg';
+import collage13 from '../assets/store/13.jpg';
+import collage14 from '../assets/store/14.jpg';
+import collage15 from '../assets/store/15.jpg';
 
 const EventGallery = () => {
     useEffect(() => {
@@ -10,9 +25,43 @@ const EventGallery = () => {
         document.body.appendChild(script);
     }, []);
 
+    // Collage images data
+    const collageImages = [
+        { src: collage8, size: "large" },
+        { src: collage2, size: "small" },
+        { src: collage3, size: "small" },
+        { src: collage4, size: "medium" },
+        { src: collage5, size: "large" },
+        { src: collage6, size: "small" },
+        { src: collage7, size: "small" },
+        { src: collage1, size: "medium" },
+        { src: collage9, size: "small" },
+        { src: collage10, size: "small" },
+        { src: collage11, size: "medium" },
+        { src: collage12, size: "large" },
+        { src: collage13, size: "medium" },
+        { src: collage14, size: "medium" },
+        { src: collage15, size: "large" },
+    ];
+
     return (
         <div className={styles.gallery}>
-            <h2>Celebration Highlights</h2>
+            {/* Image Collage Section */}
+            <div className={styles.collageSection}>
+                <h3 className={styles.collageTitle}>Ice Cream Town Gallery</h3>
+                <div className={styles.collageContainer}>
+                    {collageImages.map((image, index) => (
+                        <div key={index} className={`${styles.collageItem} ${styles[image.size]}`}>
+                            <img src={image.src} alt={image.alt} loading="lazy" />
+                            <div className={styles.overlay}>
+                                <p>{image.alt}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <h2 className={styles.reelTitle}>Celebration Highlights</h2>
             <div className={styles.imageGrid}>
                 {/* Instagram Reel 1 */}
                 <div className={styles.reelContainer}>
