@@ -30,6 +30,10 @@ html, body {
     margin-right: 10px;
     margin-left: 100px;
 }
+.logoContainer :hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
 
 .brandName {
     font-size: 1.2rem;
@@ -42,7 +46,7 @@ html, body {
     list-style: none;
     margin: 0;
     padding: 0;
-    transition: transform 0.3s ease;
+    transition: transform ease;
 }
 
 .navLinks li {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styles from '../styles/HeroSection.module.css';
 import product1 from '../assets/images/product1.png';
 import product2 from '../assets/images/product2.png';
@@ -22,7 +23,9 @@ const HeroSection = () => {
             <div className={styles.textContent}>
                 <h1>Bringing Sweet Moments to Life</h1>
                 <p>Discover the finest ice creams and desserts crafted just for you.</p>
-                <button className={styles.ctaButton}>Order Now</button>
+                <Link to="/order" className={styles.ctaButton}>
+                    Order Now
+                </Link>
             </div>
             <div className={styles.carousel}>
                 <div className={styles.wheel}>

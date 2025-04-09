@@ -53,7 +53,7 @@ const Footer = () => {
                                 <i className="fab fa-facebook-f"></i>
                             </a>
                             <a
-                                href="https://www.instagram.com"
+                                href="https://www.instagram.com/icecream_town?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={styles.icon}
