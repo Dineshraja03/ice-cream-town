@@ -4,7 +4,7 @@
     max-width: 1000px;
     height: 600px;
     margin: 20px auto;
-    border: 2px solid #ff6f61;
+    border: 2px solid #f600af;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -27,7 +27,7 @@
 
 .mapButton {
     padding: 10px 20px;
-    background-color: #ff6f61;
+    background-color: #f600af;
     color: #fff;
     font-size: 14px;
     font-weight: bold;
@@ -41,8 +41,8 @@
 .mapButton:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    background-color: #ffe0d6;
-    color: #ff6f61;
+    background-color: #ffffff;
+    color: #f600af;
 }
 
 /* Responsive Design */

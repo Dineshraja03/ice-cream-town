@@ -11,7 +11,7 @@ const PopularItemsGrid = () => {
         { id: 1, name: 'Fresh juice', image: image1 },
         { id: 2, name: 'Ice Creams', image: image2 },
         { id: 3, name: 'Jigarthanda', image: image3 },
-        { id: 4, name: 'Milkshake', image: image4 },
+        { id: 4, name: 'Milkshakes', image: image4 },
         { id: 5, name: 'Rosemilk', image: image5 },
     ];
 

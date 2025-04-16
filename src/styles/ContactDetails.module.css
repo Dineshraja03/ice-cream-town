@@ -17,7 +17,7 @@
 .contactDetails h2 {
     font-size: 28px;
     font-weight: bold;
-    color: #ff6f61;
+    color: #f600af;
     margin-bottom: 20px;
     font-family: 'Poppins', sans-serif;
     text-transform: uppercase;
@@ -37,7 +37,7 @@
     justify-content: center;
     padding: 15px 20px;
     background-color: #fff;
-    color: #ff6f61;
+    color: #f600af;
     font-size: 16px;
     font-weight: bold;
     text-decoration: none;
@@ -51,7 +51,7 @@
 .button:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    background-color: #fe6159;
+    background-color: #d40098;
     color: #ffffff;
 }
 

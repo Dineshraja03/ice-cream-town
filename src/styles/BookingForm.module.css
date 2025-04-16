@@ -51,13 +51,13 @@
 
 .inputField input:focus,
 .inputField select:focus {
-    border-color: #ff6f61;
+    border-color: #f600af;
     box-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
     outline: none;
 }
 
 .submitButton {
-    background-color: #ff6f61;
+    background-color: #f600af;
     color: white;
     padding: 12px;
     border: none;
@@ -69,18 +69,18 @@
 }
 
 .submitButton:hover {
-    background-color: #ff5a47;
+    background-color:green;
     transform: translateY(-2px);
 }
 
 .submitButton:active {
-    background-color: #e14a3a;
+    background-color: green;
     transform: translateY(0);
 }
 
 h2 {
     font-size: 2rem;
-    color: #ff6f61;
+    color: #f600af;
     margin-bottom: 20px;
     text-align: center;
     font-family: 'Poppins', sans-serif;
@@ -155,4 +155,38 @@ h2 {
     h2 {
         font-size: 1.5rem;
     }
+}
+
+/* Add these styles to your existing BookingForm.module.css */
+.whatsappButton {
+    background-color: #25D366 !important; /* WhatsApp green color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.whatsappButton:hover {
+    background-color: #1da851 !important; /* Darker green on hover */
+}
+
+.whatsappIcon {
+    font-size: 1.2em;
+}
+
+.successMessage {
+    background-color: #e7f7e7;
+    color: #2e7d32;
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }

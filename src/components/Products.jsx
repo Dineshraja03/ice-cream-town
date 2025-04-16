@@ -29,6 +29,7 @@ import chocofluffy from '../assets/products/ice creams/choco fluffy.jpg';
 //porimixtures
 import porimix1 from '../assets/products/Porimix/kara pori.jpg';
 import porimix2 from '../assets/products/Porimix/Thattu Vadai Set.jpg';
+import porimix3 from '../assets/products/Porimix/porimix3.png';
 
 //cakes
 import black from '../assets/products/cakes/black forest.jpg';
@@ -45,7 +46,7 @@ const Products = () => {
                 { id: 2, name: 'Chicken Nuggets', image: cnuggets },
                 { id: 3, name: 'Nuggets', image: nuggets },
                 { id: 4, name: 'Aloo Tikki', image: alootikki },
-                { id: 5, name: 'Smilies', image: smilies },
+                { id: 5, name: 'Smileys', image: smilies },
                 { id: 6, name: 'Egg bun Masala', image: eggbunmasala },
                 { id: 7, name: 'Veg Puff', image: vegpuff },
                 { id: 8, name: 'Egg Puff', image: eggpuff },
@@ -62,6 +63,7 @@ const Products = () => {
             items: [
                 { id: 1, name: 'Kara Pori', image: porimix1 },
                 { id: 2, name: 'Thattu Vadai Set', image: porimix2 },
+                    {id:3, name: 'Thattu Vadai Set (Egg)', image:porimix3}
             ],
         },
         {

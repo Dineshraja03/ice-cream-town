@@ -7,6 +7,7 @@ import CelebrationBookingPage from './pages/CelebrationBookingPage';
 import EventGallery from './components/EventGallery';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import CateringPage from './pages/CateringPage';
 import Footer from './components/Footer';
 import FloatingButtons from './components/FloatingButtons';
 
@@ -18,6 +19,7 @@ const App = () => {
                 <Route path="/" element={<Homepage />} />
                 <Route path="/order" element={<OrderPage />} />
                 <Route path="/celebration-booking" element={<CelebrationBookingPage />} />
+                <Route path="/catering" element={<CateringPage />} />
                 <Route path="/gallery" element={<EventGallery />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
