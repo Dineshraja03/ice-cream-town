@@ -9,6 +9,7 @@ const TestimonialsSlider = () => {
   const [autoplayPaused, setAutoplayPaused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [touchStarted, setTouchStarted] = useState(false);
   
   // Use refs for values that shouldn't trigger re-renders
   const sliderRef = useRef(null);
@@ -18,6 +19,7 @@ const TestimonialsSlider = () => {
   const touchStartRef = useRef(0);
   const isTransitioning = useRef(false);
   const autoplayTimerRef = useRef(null);
+  const touchMoveRef = useRef(0);
   
   const testimonials = [
     {
@@ -230,59 +232,6 @@ const TestimonialsSlider = () => {
     };
   }, [activeIndex, isMobile, isDragging, autoplayPaused]);
 
-  // Add this effect to your component
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-    
-    // Manual event handlers that can specify options
-    const touchStartHandler = (e) => {
-      handleTouchStart(e);
-    };
-    
-    const touchMoveHandler = (e) => {
-      // Handle touch move without preventDefault
-      if (!sliderRef.current || !cardRef.current) return;
-      
-      const touch = e.touches[0];
-      const currentX = touch.clientX;
-      const diff = currentX - touchStartRef.current;
-      
-      const cardWidth = cardRef.current.offsetWidth + 20; // mobile margin
-      const maxMove = cardWidth;
-      
-      let limitedDiff;
-      if (isMobile) {
-        limitedDiff = Math.sign(diff) * Math.min(Math.abs(diff) * 0.8, maxMove);
-      } else {
-        const dampingFactor = 0.3;
-        limitedDiff = Math.sign(diff) * Math.min(Math.abs(diff) * dampingFactor, cardWidth / 2);
-      }
-      
-      const newOffset = dragOffsetRef.current + limitedDiff;
-      sliderRef.current.style.transform = `translateX(${newOffset}px)`;
-      dragOffsetRef.current = newOffset;
-    };
-    
-    const touchEndHandler = (e) => {
-      handleTouchEnd(e);
-    };
-    
-    // Add event listeners with passive option explicitly set
-    slider.addEventListener('touchstart', touchStartHandler, { passive: true });
-    slider.addEventListener('touchmove', touchMoveHandler, { passive: true });
-    slider.addEventListener('touchend', touchEndHandler, { passive: true });
-    
-    // Clean up
-    return () => {
-      if (slider) {
-        slider.removeEventListener('touchstart', touchStartHandler);
-        slider.removeEventListener('touchmove', touchMoveHandler);
-        slider.removeEventListener('touchend', touchEndHandler);
-      }
-    };
-  }, [isMobile]); // Re-add listeners if mobile state changes
-
   // Pause autoplay on hover for desktop
   const handleMouseEnter = () => {
     if (!isMobile) {
@@ -296,8 +245,9 @@ const TestimonialsSlider = () => {
     }
   };
 
-  // Handle mouse events for dragging
+  // Handle mouse events for dragging (PC only)
   const handleMouseDown = (e) => {
+    if (isMobile) return;
     e.preventDefault();
     setIsDragging(true);
     setDragStartX(e.clientX);
@@ -307,7 +257,7 @@ const TestimonialsSlider = () => {
   };
 
   const handleMouseMove = (e) => {
-    if (!isDragging || !sliderRef.current) return;
+    if (!isDragging || !sliderRef.current || isMobile) return;
     const diff = e.clientX - dragStartX;
     const newOffset = Math.round(dragOffsetRef.current + diff);
     dragOffsetRef.current = newOffset;
@@ -316,7 +266,7 @@ const TestimonialsSlider = () => {
   };
 
   const handleMouseUp = () => {
-    if (isDragging && sliderRef.current) {
+    if (isDragging && sliderRef.current && !isMobile) {
       sliderRef.current.style.transition = 'transform 0.3s ease';
       setIsDragging(false);
       
@@ -327,112 +277,61 @@ const TestimonialsSlider = () => {
     }
   };
 
-  // Touch handling functions with improved mobile support
+  // Touch handling for mobile - simplified to just advance on touch
   const handleTouchStart = (e) => {
-    const touch = e.touches[0];
-    touchStartRef.current = touch.clientX;
+    if (!isMobile) return;
+    
+    setTouchStarted(true);
+    touchStartRef.current = e.touches[0].clientX;
+    touchMoveRef.current = 0;
     setAutoplayPaused(true);
-    
-    if (sliderRef.current) {
-      sliderRef.current.style.transition = 'none';
-    }
-    
-    // Store the initial position to calculate movement
-    dragOffsetRef.current = dragOffset;
   };
 
   const handleTouchMove = (e) => {
-    if (!sliderRef.current || !cardRef.current) return;
+    if (!isMobile || !touchStarted) return;
     
-    // Only get the horizontal movement
-    const touch = e.touches[0];
-    const currentX = touch.clientX;
+    const currentX = e.touches[0].clientX;
     const diff = currentX - touchStartRef.current;
-    
-    // More direct response for mobile - reduce damping for better feel
-    const cardWidth = cardRef.current.offsetWidth + 20; // mobile margin
-    
-    // Calculate maximum allowed movement (one card width)
-    const maxMove = cardWidth;
-    
-    // Apply movement with less resistance for mobile
-    let limitedDiff;
-    if (isMobile) {
-      // More direct response for mobile
-      limitedDiff = Math.sign(diff) * Math.min(Math.abs(diff) * 0.8, maxMove);
-    } else {
-      // Original damping for desktop
-      const dampingFactor = 0.3;
-      limitedDiff = Math.sign(diff) * Math.min(Math.abs(diff) * dampingFactor, cardWidth / 2);
-    }
-    
-    // Apply the position with appropriate resistance
-    const newOffset = dragOffsetRef.current + limitedDiff;
-    
-    // Apply the new position
-    sliderRef.current.style.transform = `translateX(${newOffset}px)`;
-    dragOffsetRef.current = newOffset;
+    touchMoveRef.current = diff;
   };
 
-  const handleTouchEnd = () => {
-    if (!sliderRef.current || !cardRef.current) return;
+  const handleTouchEnd = (e) => {
+    if (!isMobile || !touchStarted) return;
     
-    // Re-enable transitions
-    sliderRef.current.style.transition = 'transform 0.3s ease';
+    setTouchStarted(false);
     
     // Resume autoplay after a delay
     setTimeout(() => {
       setAutoplayPaused(false);
     }, 1000);
     
-    // Calculate movement to determine direction
-    const marginSize = isMobile ? 20 : 40;
-    const cardWidth = cardRef.current.offsetWidth + marginSize;
+    // Determine swipe direction and move to next/prev slide
+    const moveThreshold = 30; // Minimum swipe distance to trigger navigation
     
-    // Calculate current position relative to active index
-    const currentPosition = activeIndex * cardWidth;
-    const currentOffset = Math.abs(dragOffsetRef.current);
-    const diffFromPosition = Math.abs(currentOffset - currentPosition);
-    
-    // Determine which direction to move based on swipe
-    let targetIndex = activeIndex;
-    const moveThreshold = isMobile ? 0.1 * cardWidth : 0.15 * cardWidth;
-    
-    if (diffFromPosition > moveThreshold) {
-      if (dragOffsetRef.current > -currentPosition) {
-        // Moving right (prev)
-        targetIndex = (activeIndex - 1 + testimonials.length) % testimonials.length;
-      } else {
-        // Moving left (next)
-        targetIndex = (activeIndex + 1) % testimonials.length;
-      }
+    // Only advance if the user didn't swipe significantly
+    // This makes simple taps advance to the next slide
+    if (Math.abs(touchMoveRef.current) < moveThreshold) {
+      // Simple touch/tap - advance to next slide
+      scrollTestimonials('right');
+      return;
     }
     
-    // Calculate the final target offset
-    const targetOffset = -targetIndex * cardWidth;
-    
-    // Apply the snap with transition
-    sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
-    dragOffsetRef.current = targetOffset;
-    setDragOffset(targetOffset);
-    
-    // Ensure card is properly centered after sliding (especially for mobile)
-    if (isMobile) {
-      setTimeout(() => {
-        if (sliderRef.current) {
-          // Reconfirm the position is exactly at the target offset
-          sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
-        }
-      }, 310); // Just after the transition completes
+    // Otherwise handle as swipe
+    if (touchMoveRef.current > moveThreshold) {
+      // Swipe right - go to previous slide
+      scrollTestimonials('left');
+    } else if (touchMoveRef.current < -moveThreshold) {
+      // Swipe left - go to next slide
+      scrollTestimonials('right');
     }
   };
 
-  // Function to snap to the nearest card after dragging
+  // Function to snap to the nearest card after dragging (PC only)
   const snapToCard = () => {
     if (!cardRef.current || !sliderRef.current) return;
     
     // Adjust margin size based on screen width
-    const marginSize = isMobile ? 20 : 40;
+    const marginSize = 40; // PC only
     const cardWidth = cardRef.current.offsetWidth + marginSize;
     const currentOffset = dragOffsetRef.current;
     
@@ -449,15 +348,6 @@ const TestimonialsSlider = () => {
     dragOffsetRef.current = targetOffset;
     sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
     setDragOffset(targetOffset);
-    
-    // Ensure proper centering for mobile
-    if (isMobile) {
-      setTimeout(() => {
-        if (sliderRef.current) {
-          sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
-        }
-      }, 310); // Just after transition completes
-    }
   };
 
   // Function to handle dot navigation
@@ -481,11 +371,11 @@ const TestimonialsSlider = () => {
     }, 300);
   };
 
-  // Function to scroll testimonials - improved for better mobile handling
+  // Function to scroll testimonials
   const scrollTestimonials = (direction) => {
     if (!sliderRef.current || !cardRef.current || isTransitioning.current) return;
     
-    // Set transitioning flag to prevent multiple clicks
+    // Set transitioning flag to prevent multiple clicks/touches
     isTransitioning.current = true;
     
     // Adjust margin size based on screen width
@@ -517,11 +407,9 @@ const TestimonialsSlider = () => {
     setTimeout(() => {
       isTransitioning.current = false;
       
-      // Ensure proper centering for mobile
-      if (isMobile) {
-        if (sliderRef.current) {
-          sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
-        }
+      // Ensure proper centering after transition
+      if (isMobile && sliderRef.current) {
+        sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
       }
     }, 300);
   };
@@ -564,14 +452,15 @@ const TestimonialsSlider = () => {
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             style={{ 
               cursor: isDragging ? 'grabbing' : 'grab',
               transition: isTransitioning.current ? 'transform 0.3s ease' : 'none',
               transform: `translateX(${dragOffset}px)`,
-              touchAction: 'pan-y', // Add this for better touch handling
             }}
           >
-            {/* Main testimonials - on mobile, we don't need the extra duplicates */}
             {testimonials.map((testimonial, index) => (
               <div 
                 key={`testimonial-${testimonial.id}-${index}`}

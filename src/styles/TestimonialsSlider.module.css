@@ -378,6 +378,96 @@
   .dotsContainer {
     margin-top: 15px;
   }
+
+  .testimonialsContainer {
+    padding: 40px 0;
+    overflow: hidden;
+  }
+  
+  .testimonialCard {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    padding: 20px 15px !important;
+    box-sizing: border-box !important;
+  }
+  
+  .testimonialsWrapper {
+    width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0;
+  }
+  
+  .testimonialSlider {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  
+  .testimonialAuthor {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .authorImage {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .authorName, .authorRole, .reviewTime {
+    text-align: center !important;
+  }
+  
+  .authorMeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .testimonialText {
+    text-align: center;
+    font-size: 0.95rem;
+    max-height: none;
+    overflow: visible;
+  }
+  
+  .controlsWrapper {
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .testimonialsContainer {
+    padding: 40px 15px;
+    box-sizing: border-box;
+  }
+  
+  .dotsContainer {
+    margin-top: 15px;
+  }
+
+  /* Hide all touchAction related CSS properties */
+  * {
+    -ms-touch-action: none;
+    touch-action: none;
+  }
+  
+  /* Add tap indicator for mobile */
+  .testimonialCard::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #f600af;
+    opacity: 0.6;
+  }
 }
 
 @keyframes progressDesktop {
@@ -436,9 +526,30 @@
   .testimonialAuthor {
     justify-content: center;
   }
+
+  .testimonialCard {
+    padding: 15px 10px !important;
+  }
 }
 
 .mobileSlider {
   /* Don't try to prevent default behavior on mobile */
   touch-action: pan-y; 
+}
+
+/* Update these styles for mobile alignment fixes */
+
+.mobileCard {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+  max-width: 90% !important;
+}
+
+.mobileSlider {
+  will-change: transform;
+  touch-action: none; /* Disable browser handling of all panning and zooming gestures */
 }
