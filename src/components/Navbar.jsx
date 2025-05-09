@@ -12,7 +12,8 @@ import {
   FaPhoneAlt, 
   FaBars, 
   FaTimes,
-  FaIceCream
+  FaIceCream,
+  FaHandshake
 } from 'react-icons/fa';
 
 const Navbar = () => {
@@ -41,6 +42,10 @@ const Navbar = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
     const navItems = [
         { path: "/", text: "Home", icon: <FaHome /> },
         { path: "/about", text: "About Us", icon: <FaInfoCircle /> },
@@ -63,20 +68,44 @@ const Navbar = () => {
                     <span className={styles.brandName}>Ice Cream Town</span>
                 </div> */}
                 
-                <ul className={`${styles.navLinks} ${isMenuOpen ? styles.showMenu : ''}`}>
-                    {navItems.map((item, index) => (
-                        <li key={index} className={location.pathname === item.path ? styles.activeLink : ''}>
-                            <Link 
-                                to={item.path} 
-                                onClick={toggleMenu}
-                                className={`${styles.navLink} ${location.pathname === item.path ? styles.active : ''}`}
-                            >
-                                <span className={styles.navIcon}>{item.icon}</span>
-                                {item.text}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+                <div className={`${styles.navLinks} ${isMenuOpen ? styles.showMenu : ''}`}>
+                    {/* Sidebar Header with Title and Close Button */}
+                    <div className={styles.sidebarHeader}>
+                        <div className={styles.sidebarTitle}>
+                            <FaIceCream className={styles.sidebarIcon} />
+                            <span>Ice Cream Town</span>
+                        </div>
+                        <button className={styles.closeButton} onClick={closeMenu}>
+                            <FaTimes />
+                        </button>
+                    </div>
+                    
+                    {/* Navigation Links */}
+                    <ul className={styles.navLinksList}>
+                        {navItems.map((item, index) => (
+                            <li key={index} className={location.pathname === item.path ? styles.activeLink : ''}>
+                                <Link 
+                                    to={item.path} 
+                                    onClick={closeMenu}
+                                    className={`${styles.navLink} ${location.pathname === item.path ? styles.active : ''}`}
+                                >
+                                    <span className={styles.navIcon}>{item.icon}</span>
+                                    {item.text}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                    
+                    {/* Franchise Enquiry Button */}
+                    <a 
+                        href="tel:+919087677680" 
+                        className={styles.franchiseButton}
+                        onClick={closeMenu}
+                    >
+                        <FaHandshake className={styles.navIcon} />
+                        Franchise Enquiry
+                    </a>
+                </div>
                 
                 <div className={styles.overlayTitle}>Om Thiru Deena </div>
                 

@@ -84,6 +84,88 @@ html, body {
     transition: all 0.3s ease;
 }
 
+/* Sidebar Header Styles */
+.sidebarHeader {
+    display: none; /* Hidden by default, shown in mobile view */
+    width: 100%;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebarTitle {
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+}
+
+.sidebarIcon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.closeButton:hover {
+    transform: scale(1.1);
+}
+
+/* Franchise Enquiry Button Styles */
+.franchiseButton {
+    display: none; /* Hidden by default, shown in mobile view */
+    text-decoration: none;
+    background-color: white;
+    color: #f600af;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+}
+
+.franchiseButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background-color: #f8f8f8;
+}
+
+.franchiseButton .navIcon {
+    margin-right: 8px;
+    font-size: 1.2rem;
+}
+
+/* NavLinks List for Mobile View */
+.navLinksList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
 /* PC View Navigation Styling */
 @media (min-width: 769px) {
     .navbar {
@@ -97,6 +179,12 @@ html, body {
         height: auto;
         width: auto;
         background-color: transparent;
+        gap: 5px;
+    }
+
+    .navLinksList {
+        display: flex;
+        flex-direction: row;
         gap: 5px;
     }
 
@@ -176,6 +264,12 @@ html, body {
         left: 200px;
         top: 50%;
         transform: translateY(-50%);
+    }
+    
+    /* Hide sidebar elements on desktop */
+    .sidebarHeader,
+    .franchiseButton {
+        display: none;
     }
 }
 
@@ -270,7 +364,6 @@ html, body {
 @media (max-width: 768px) {
     .menuButton {
         display: flex;
-
     }
 
     .navLinks {
@@ -282,22 +375,30 @@ html, body {
         background-color: #d7006f;
         flex-direction: column;
         align-items: flex-start;
-        padding: 80px 20px 20px;
+        padding: 20px;
         transform: translateX(-100%);
         z-index: 199995;
         transition: transform 0.3s ease-in-out;
         box-shadow: 3px 0 15px rgba(0, 0, 0, 0.2);
-        
+        overflow-y: auto;
     }
 
     .navLinks.showMenu {
         transform: translateX(0);
     }
+    
+    /* Show sidebar header in mobile view */
+    .sidebarHeader {
+        display: flex;
+    }
+    
+    /* Show franchise button in mobile view */
+    .franchiseButton {
+        display: flex;
+    }
 
-    .navLinks li {
+    .navLinksList li {
         padding: 5px 15px;
-        
-        /* border-width: 8px; */
         width: 85%;
         margin: 10px 0;
     }
