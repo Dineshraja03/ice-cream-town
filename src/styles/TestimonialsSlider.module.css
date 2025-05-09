@@ -45,6 +45,7 @@
   will-change: transform;
   touch-action: pan-y;
   -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
+  user-select: none; /* Prevent text selection during drag */
 }
 
 .testimonialCard {
@@ -435,4 +436,9 @@
   .testimonialAuthor {
     justify-content: center;
   }
+}
+
+.mobileSlider {
+  /* Don't try to prevent default behavior on mobile */
+  touch-action: pan-y; 
 }

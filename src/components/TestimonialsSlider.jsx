@@ -296,11 +296,6 @@ const TestimonialsSlider = () => {
     const currentX = touch.clientX;
     const diff = currentX - touchStartRef.current;
     
-    // Only prevent default if horizontal swipe is significant
-    if (Math.abs(diff) > 10) {
-      e.preventDefault();
-    }
-    
     // More direct response for mobile - reduce damping for better feel
     const cardWidth = cardRef.current.offsetWidth + 20; // mobile margin
     
@@ -522,7 +517,8 @@ const TestimonialsSlider = () => {
             style={{ 
               cursor: isDragging ? 'grabbing' : 'grab',
               transition: isTransitioning.current ? 'transform 0.3s ease' : 'none',
-              transform: `translateX(${dragOffset}px)`
+              transform: `translateX(${dragOffset}px)`,
+              touchAction: 'pan-y', // Add this for better touch handling
             }}
           >
             {/* Main testimonials - on mobile, we don't need the extra duplicates */}
