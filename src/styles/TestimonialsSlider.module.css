@@ -293,6 +293,49 @@
   .reviewTime {
     font-size: 0.75rem;
   }
+
+  .testimonialSlider {
+    will-change: transform;
+    touch-action: pan-y; /* Enable vertical scrolling while capturing horizontal swipes */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Auto-transitioning indicator */
+  .activeDot {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .activeDot::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(246, 0, 175, 0.5);
+    transform-origin: left;
+    animation: progress 3s linear infinite;
+  }
+  
+  @keyframes progress {
+    0% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(1);
+    }
+  }
+  
+  /* Ensure proper spacing without side buttons */
+  .controlsWrapper {
+    padding: 0;
+  }
+  
+  .testimonialsWrapper {
+    width: 100%;
+    padding: 0;
+  }
 }
 
 /* Small mobile styles */

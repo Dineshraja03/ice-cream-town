@@ -8,15 +8,16 @@ const TestimonialsSlider = () => {
   const [dragOffset, setDragOffset] = useState(0);
   const [autoplayPaused, setAutoplayPaused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   
   // Use refs for values that shouldn't trigger re-renders
   const sliderRef = useRef(null);
   const cardRef = useRef(null);
   const animationRef = useRef(null);
-  const startTimeRef = useRef(null);
   const dragOffsetRef = useRef(0);
   const touchStartRef = useRef(0);
   const isTransitioning = useRef(false);
+  const autoplayTimerRef = useRef(null);
   
   const testimonials = [
     {
@@ -119,25 +120,63 @@ const TestimonialsSlider = () => {
   // Calculate the active index based on drag offset
   useEffect(() => {
     if (cardRef.current && !isTransitioning.current) {
-      const cardWidth = cardRef.current.offsetWidth + 40;
-      const rawIndex = Math.abs(Math.round(dragOffset / cardWidth)) % testimonials.length;
+      const marginSize = isMobile ? 20 : 40;
+      const cardWidth = cardRef.current.offsetWidth + marginSize;
+      
+      // Handle the case where offset might be positive (for looping)
+      let normalizedOffset = dragOffset;
+      
+      // Calculate the total width of all slides
+      const totalWidth = cardWidth * testimonials.length;
+      
+      // If the offset is positive, adjust it to be negative and at the appropriate looping position
+      if (normalizedOffset > 0) {
+        normalizedOffset = normalizedOffset - totalWidth;
+      }
+      
+      // Get absolute index (might be larger than array length)
+      const absoluteIndex = Math.abs(Math.round(normalizedOffset / cardWidth));
+      
+      // Use modulo to get the actual array index
+      const rawIndex = absoluteIndex % testimonials.length;
+      
       setActiveIndex(rawIndex);
     }
-  }, [dragOffset, testimonials.length]);
+  }, [dragOffset, testimonials.length, isMobile]);
 
-  // Disable auto-scroll - we'll use manual navigation instead
+  // Check if device is mobile and setup autoplay
   useEffect(() => {
-    // Clean up on unmount
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
+    // Function to check if the viewport is mobile size
+    const checkIfMobile = () => {
+      const mobileWidth = 768;
+      setIsMobile(window.innerWidth <= mobileWidth);
+    };
+    
+    // Check initially
+    checkIfMobile();
+    
+    // Setup autoplay on mobile
+    const startAutoplay = () => {
+      if (autoplayTimerRef.current) {
+        clearInterval(autoplayTimerRef.current);
+      }
+      
+      if (isMobile) {
+        autoplayTimerRef.current = setInterval(() => {
+          if (!isDragging && !autoplayPaused && !isTransitioning.current) {
+            scrollTestimonials('right');
+          }
+        }, 3000); // Change slide every 3 seconds
       }
     };
-  }, []);
-
-  // Add this useEffect to your component to handle resize events
-  useEffect(() => {
+    
+    // Start autoplay
+    startAutoplay();
+    
+    // Setup resize listener
     const handleResize = () => {
+      checkIfMobile();
+      
       if (cardRef.current && sliderRef.current) {
         // Re-calculate the position on resize to keep active card visible
         const marginSize = window.innerWidth <= 768 ? 20 : 40;
@@ -157,16 +196,35 @@ const TestimonialsSlider = () => {
           }
         }, 50);
       }
+      
+      // Restart autoplay with new settings
+      startAutoplay();
     };
     
-    // Add event listener for resize
+    // Add event listeners
     window.addEventListener('resize', handleResize);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        // Clear autoplay when page is not visible
+        clearInterval(autoplayTimerRef.current);
+      } else {
+        // Restart autoplay when page becomes visible again
+        startAutoplay();
+      }
+    });
     
     // Clean up
     return () => {
+      if (autoplayTimerRef.current) {
+        clearInterval(autoplayTimerRef.current);
+      }
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', () => {});
     };
-  }, [activeIndex]);
+  }, [activeIndex, isMobile, isDragging, autoplayPaused]);
 
   // Handle mouse events for dragging
   const handleMouseDown = (e) => {
@@ -199,7 +257,7 @@ const TestimonialsSlider = () => {
     }
   };
 
-  // Replace the touch handling functions with these improved versions
+  // Touch handling functions with improved mobile support
   const handleTouchStart = (e) => {
     const touch = e.touches[0];
     touchStartRef.current = touch.clientX;
@@ -216,44 +274,83 @@ const TestimonialsSlider = () => {
   const handleTouchMove = (e) => {
     if (!sliderRef.current) return;
     
-    // Prevent default to avoid page scrolling while swiping the slider
-    e.preventDefault();
-    
+    // Only get the horizontal movement
     const touch = e.touches[0];
     const currentX = touch.clientX;
     const diff = currentX - touchStartRef.current;
     
-    // Use a more responsive factor for touch movement (1 instead of 2)
-    const newOffset = Math.round(dragOffsetRef.current + diff);
+    // Limit the distance to only allow one card shift at maximum
+    if (Math.abs(diff) > 10) {
+      // Prevent vertical scrolling only for significant horizontal swipes
+      e.preventDefault();
+    }
+    
+    // Add resistance to make the swipe more controlled
+    // Use a damping factor to limit the swipe distance - allows swipe movement 
+    // but has resistance for longer swipes
+    const dampingFactor = 0.3;
+    const limitedDiff = Math.sign(diff) * Math.min(Math.abs(diff) * dampingFactor, 
+                        cardRef.current ? cardRef.current.offsetWidth / 2 : 100);
+    
+    // Apply the position with resistance
+    const newOffset = dragOffsetRef.current + limitedDiff;
     
     // Apply the new position
     sliderRef.current.style.transform = `translateX(${newOffset}px)`;
-    
-    // Update refs but not state (for performance)
     dragOffsetRef.current = newOffset;
   };
 
-  const handleTouchEnd = (e) => {
+  const handleTouchEnd = () => {
     if (!sliderRef.current || !cardRef.current) return;
     
     // Re-enable transitions
     sliderRef.current.style.transition = 'transform 0.3s ease';
-    setAutoplayPaused(false);
     
-    // Calculate the proper card to snap to based on velocity
-    const cardWidth = cardRef.current.offsetWidth + (window.innerWidth <= 768 ? 20 : 40);
-    const currentPos = dragOffsetRef.current;
+    // Resume autoplay after a delay
+    setTimeout(() => {
+      setAutoplayPaused(false);
+    }, 1000);
     
-    // Calculate the nearest card index
-    const nearestCardIndex = Math.round(Math.abs(currentPos) / cardWidth);
+    // Calculate movement to determine direction
+    const marginSize = isMobile ? 20 : 40;
+    const cardWidth = cardRef.current.offsetWidth + marginSize;
     
-    // Set the final position
-    const finalOffset = -nearestCardIndex * cardWidth;
+    // Determine whether to move forward or backward by just one card
+    // We'll snap to the nearest card, but limit movement to max one card
+    let targetIndex = activeIndex;
+    const diffFromPosition = Math.abs(dragOffsetRef.current + activeIndex * cardWidth);
     
-    // Apply the snap with transition
-    sliderRef.current.style.transform = `translateX(${finalOffset}px)`;
-    dragOffsetRef.current = finalOffset;
-    setDragOffset(finalOffset);
+    if (diffFromPosition > cardWidth * 0.15) {
+      // If moved more than 15% of card width, determine direction
+      if (dragOffsetRef.current > -(activeIndex * cardWidth)) {
+        // Moving backward (right)
+        targetIndex = Math.max(0, activeIndex - 1);
+      } else {
+        // Moving forward (left)
+        targetIndex = Math.min(testimonials.length - 1, activeIndex + 1);
+      }
+    }
+    
+    // Handle loop from last to first and vice versa
+    if (targetIndex === 0 && activeIndex === testimonials.length - 1) {
+      // We're at the end, going back to the beginning
+      const loopBackOffset = -targetIndex * cardWidth;
+      dragOffsetRef.current = loopBackOffset;
+      sliderRef.current.style.transform = `translateX(${loopBackOffset}px)`;
+      setDragOffset(loopBackOffset);
+    } else if (targetIndex === testimonials.length - 1 && activeIndex === 0) {
+      // We're at the beginning, going to the end
+      const loopEndOffset = -targetIndex * cardWidth;
+      dragOffsetRef.current = loopEndOffset;
+      sliderRef.current.style.transform = `translateX(${loopEndOffset}px)`;
+      setDragOffset(loopEndOffset);
+    } else {
+      // Normal case: calculate the target offset
+      const targetOffset = -targetIndex * cardWidth;
+      dragOffsetRef.current = targetOffset;
+      sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
+      setDragOffset(targetOffset);
+    }
   };
 
   // Function to snap to the nearest card after dragging
@@ -261,15 +358,18 @@ const TestimonialsSlider = () => {
     if (!cardRef.current || !sliderRef.current) return;
     
     // Adjust margin size based on screen width
-    const marginSize = window.innerWidth <= 768 ? 20 : 40;
+    const marginSize = isMobile ? 20 : 40;
     const cardWidth = cardRef.current.offsetWidth + marginSize;
     const currentOffset = dragOffsetRef.current;
     
     // Calculate the nearest card index
     const nearestCardIndex = Math.round(Math.abs(currentOffset) / cardWidth);
     
-    // Calculate the target offset
-    const targetOffset = -nearestCardIndex * cardWidth;
+    // Handle looping at the edges
+    let targetIndex = nearestCardIndex % testimonials.length;
+    
+    // Calculate the target offset based on the index
+    const targetOffset = -(targetIndex * cardWidth);
     
     // Apply the snap
     dragOffsetRef.current = targetOffset;
@@ -283,7 +383,8 @@ const TestimonialsSlider = () => {
     
     isTransitioning.current = true;
     
-    const cardWidth = cardRef.current.offsetWidth + 40;
+    const marginSize = isMobile ? 20 : 40;
+    const cardWidth = cardRef.current.offsetWidth + marginSize;
     const targetOffset = -index * cardWidth;
     
     sliderRef.current.style.transition = 'transform 0.3s ease';
@@ -297,14 +398,15 @@ const TestimonialsSlider = () => {
     }, 300);
   };
 
-  // Also update the scrollTestimonials function to handle mobile sizing
+  // Function to scroll testimonials - fixed to properly handle nav buttons
   const scrollTestimonials = (direction) => {
-    if (!sliderRef.current || !cardRef.current || isTransitioning.current) return;
+    if (!sliderRef.current || !cardRef.current) return;
     
+    // Set transitioning flag to prevent multiple clicks
     isTransitioning.current = true;
     
     // Adjust margin size based on screen width
-    const marginSize = window.innerWidth <= 768 ? 20 : 40;
+    const marginSize = isMobile ? 20 : 40;
     const cardWidth = cardRef.current.offsetWidth + marginSize;
     const totalItems = testimonials.length;
     
@@ -324,7 +426,7 @@ const TestimonialsSlider = () => {
     sliderRef.current.style.transition = 'transform 0.3s ease';
     sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
     
-    // Update state
+    // Update state and refs
     dragOffsetRef.current = targetOffset;
     setDragOffset(targetOffset);
     
@@ -349,14 +451,16 @@ const TestimonialsSlider = () => {
       <div className={styles.subtitle}>Delighting customers with every scoop and celebration</div>
       
       <div className={styles.controlsWrapper}>
-        <button 
-          className={styles.navButton} 
-          onClick={() => scrollTestimonials('left')}
-          aria-label="Previous testimonial"
-          disabled={isTransitioning.current}
-        >
-          <FaChevronLeft />
-        </button>
+        {/* Show navigation buttons only on non-mobile devices */}
+        {!isMobile && (
+          <button 
+            className={styles.navButton} 
+            onClick={() => !isTransitioning.current && scrollTestimonials('left')}
+            aria-label="Previous testimonial"
+          >
+            <FaChevronLeft />
+          </button>
+        )}
         
         <div className={styles.testimonialsWrapper}>
           <div 
@@ -375,6 +479,42 @@ const TestimonialsSlider = () => {
               transform: `translateX(${dragOffset}px)`
             }}
           >
+            {/* Prepend the last items for infinite loop */}
+            {testimonials.slice(-2).map((testimonial, index) => (
+              <div 
+                key={`pre-testimonial-${testimonial.id}-${index}`}
+                className={styles.testimonialCard}
+                style={{ opacity: isMobile ? 0 : 1, visibility: isMobile ? 'hidden' : 'visible' }}
+              >
+                <div className={styles.quoteIcon}>
+                  <FaQuoteLeft />
+                </div>
+                <p className={styles.testimonialText}>{testimonial.text}</p>
+                <div className={styles.ratingContainer}>
+                  {renderStars(testimonial.rating)}
+                </div>
+                <div className={styles.testimonialAuthor}>
+                  <img 
+                    src={testimonial.image} 
+                    alt={testimonial.name} 
+                    className={styles.authorImage}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://via.placeholder.com/55?text=User';
+                    }}
+                  />
+                  <div>
+                    <h4 className={styles.authorName}>{testimonial.name}</h4>
+                    <div className={styles.authorMeta}>
+                      <p className={styles.authorRole}>{testimonial.role}</p>
+                      <p className={styles.reviewTime}>{testimonial.time}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Main testimonials */}
             {testimonials.map((testimonial, index) => (
               <div 
                 key={`testimonial-${testimonial.id}-${index}`}
@@ -408,17 +548,54 @@ const TestimonialsSlider = () => {
                 </div>
               </div>
             ))}
+            
+            {/* Append first items for infinite loop */}
+            {testimonials.slice(0, 2).map((testimonial, index) => (
+              <div 
+                key={`post-testimonial-${testimonial.id}-${index}`}
+                className={styles.testimonialCard}
+                style={{ opacity: isMobile ? 0 : 1, visibility: isMobile ? 'hidden' : 'visible' }}
+              >
+                <div className={styles.quoteIcon}>
+                  <FaQuoteLeft />
+                </div>
+                <p className={styles.testimonialText}>{testimonial.text}</p>
+                <div className={styles.ratingContainer}>
+                  {renderStars(testimonial.rating)}
+                </div>
+                <div className={styles.testimonialAuthor}>
+                  <img 
+                    src={testimonial.image} 
+                    alt={testimonial.name} 
+                    className={styles.authorImage}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://via.placeholder.com/55?text=User';
+                    }}
+                  />
+                  <div>
+                    <h4 className={styles.authorName}>{testimonial.name}</h4>
+                    <div className={styles.authorMeta}>
+                      <p className={styles.authorRole}>{testimonial.role}</p>
+                      <p className={styles.reviewTime}>{testimonial.time}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
         
-        <button 
-          className={styles.navButton} 
-          onClick={() => scrollTestimonials('right')}
-          aria-label="Next testimonial"
-          disabled={isTransitioning.current}
-        >
-          <FaChevronRight />
-        </button>
+        {/* Show navigation buttons only on non-mobile devices */}
+        {!isMobile && (
+          <button 
+            className={styles.navButton} 
+            onClick={() => !isTransitioning.current && scrollTestimonials('right')}
+            aria-label="Next testimonial"
+          >
+            <FaChevronRight />
+          </button>
+        )}
       </div>
       
       <div className={styles.dotsContainer}>
@@ -426,9 +603,8 @@ const TestimonialsSlider = () => {
           <button 
             key={`dot-${index}`}
             className={`${styles.dot} ${activeIndex === index ? styles.activeDot : ''}`}
-            onClick={() => goToSlide(index)}
+            onClick={() => !isTransitioning.current && goToSlide(index)}
             aria-label={`View testimonial ${index + 1}`}
-            disabled={isTransitioning.current}
           />
         ))}
       </div>
