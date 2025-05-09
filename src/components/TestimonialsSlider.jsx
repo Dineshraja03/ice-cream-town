@@ -135,6 +135,39 @@ const TestimonialsSlider = () => {
     };
   }, []);
 
+  // Add this useEffect to your component to handle resize events
+  useEffect(() => {
+    const handleResize = () => {
+      if (cardRef.current && sliderRef.current) {
+        // Re-calculate the position on resize to keep active card visible
+        const marginSize = window.innerWidth <= 768 ? 20 : 40;
+        const cardWidth = cardRef.current.offsetWidth + marginSize;
+        const targetOffset = -activeIndex * cardWidth;
+        
+        // Apply the new position without animation
+        sliderRef.current.style.transition = 'none';
+        sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
+        dragOffsetRef.current = targetOffset;
+        setDragOffset(targetOffset);
+        
+        // Re-enable transition after position update
+        setTimeout(() => {
+          if (sliderRef.current) {
+            sliderRef.current.style.transition = 'transform 0.3s ease';
+          }
+        }, 50);
+      }
+    };
+    
+    // Add event listener for resize
+    window.addEventListener('resize', handleResize);
+    
+    // Clean up
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [activeIndex]);
+
   // Handle mouse events for dragging
   const handleMouseDown = (e) => {
     e.preventDefault();
@@ -166,42 +199,70 @@ const TestimonialsSlider = () => {
     }
   };
 
-  // Handle touch events for mobile swiping
+  // Replace the touch handling functions with these improved versions
   const handleTouchStart = (e) => {
-    touchStartRef.current = e.targetTouches[0].clientX;
+    const touch = e.touches[0];
+    touchStartRef.current = touch.clientX;
     setAutoplayPaused(true);
+    
     if (sliderRef.current) {
       sliderRef.current.style.transition = 'none';
     }
+    
+    // Store the initial position to calculate movement
+    dragOffsetRef.current = dragOffset;
   };
 
   const handleTouchMove = (e) => {
     if (!sliderRef.current) return;
-    const currentX = e.targetTouches[0].clientX;
+    
+    // Prevent default to avoid page scrolling while swiping the slider
+    e.preventDefault();
+    
+    const touch = e.touches[0];
+    const currentX = touch.clientX;
     const diff = currentX - touchStartRef.current;
-    const newOffset = Math.round(dragOffsetRef.current + diff / 2);
-    dragOffsetRef.current = newOffset;
+    
+    // Use a more responsive factor for touch movement (1 instead of 2)
+    const newOffset = Math.round(dragOffsetRef.current + diff);
+    
+    // Apply the new position
     sliderRef.current.style.transform = `translateX(${newOffset}px)`;
-    touchStartRef.current = currentX;
+    
+    // Update refs but not state (for performance)
+    dragOffsetRef.current = newOffset;
   };
 
-  const handleTouchEnd = () => {
-    if (sliderRef.current) {
-      sliderRef.current.style.transition = 'transform 0.3s ease';
-    }
+  const handleTouchEnd = (e) => {
+    if (!sliderRef.current || !cardRef.current) return;
+    
+    // Re-enable transitions
+    sliderRef.current.style.transition = 'transform 0.3s ease';
     setAutoplayPaused(false);
     
-    // Snap to the nearest card
-    if (cardRef.current) {
-      snapToCard();
-    }
+    // Calculate the proper card to snap to based on velocity
+    const cardWidth = cardRef.current.offsetWidth + (window.innerWidth <= 768 ? 20 : 40);
+    const currentPos = dragOffsetRef.current;
+    
+    // Calculate the nearest card index
+    const nearestCardIndex = Math.round(Math.abs(currentPos) / cardWidth);
+    
+    // Set the final position
+    const finalOffset = -nearestCardIndex * cardWidth;
+    
+    // Apply the snap with transition
+    sliderRef.current.style.transform = `translateX(${finalOffset}px)`;
+    dragOffsetRef.current = finalOffset;
+    setDragOffset(finalOffset);
   };
 
   // Function to snap to the nearest card after dragging
   const snapToCard = () => {
     if (!cardRef.current || !sliderRef.current) return;
     
-    const cardWidth = cardRef.current.offsetWidth + 40; // 40px for margins
+    // Adjust margin size based on screen width
+    const marginSize = window.innerWidth <= 768 ? 20 : 40;
+    const cardWidth = cardRef.current.offsetWidth + marginSize;
     const currentOffset = dragOffsetRef.current;
     
     // Calculate the nearest card index
@@ -236,13 +297,15 @@ const TestimonialsSlider = () => {
     }, 300);
   };
 
-  // Improved scroll testimonials function
+  // Also update the scrollTestimonials function to handle mobile sizing
   const scrollTestimonials = (direction) => {
     if (!sliderRef.current || !cardRef.current || isTransitioning.current) return;
     
     isTransitioning.current = true;
     
-    const cardWidth = cardRef.current.offsetWidth + 40; // 40px for margins
+    // Adjust margin size based on screen width
+    const marginSize = window.innerWidth <= 768 ? 20 : 40;
+    const cardWidth = cardRef.current.offsetWidth + marginSize;
     const totalItems = testimonials.length;
     
     let nextIndex;

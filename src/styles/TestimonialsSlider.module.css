@@ -44,6 +44,7 @@
   display: flex;
   will-change: transform;
   touch-action: pan-y;
+  -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
 }
 
 .testimonialCard {
@@ -231,10 +232,20 @@
   }
   
   .testimonialCard {
-    flex: 0 0 calc(100% - 40px);
-    min-width: calc(100% - 40px);
+    flex: 0 0 calc(100% - 20px); /* Reduced margin for better fit */
+    min-width: calc(100% - 20px);
     padding: 20px;
     min-height: 250px;
+    margin: 0 10px;
+  }
+  
+  .testimonialsWrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 5px 0;
+    margin-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
   }
   
   .title {
@@ -263,8 +274,20 @@
   }
   
   .navButton {
-    width: 35px;
-    height: 35px;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(246, 0, 175, 0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 20; /* Ensure buttons appear above content */
+  }
+
+  .dotsContainer {
+    margin-top: 5px;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
   }
 
   .reviewTime {
@@ -276,8 +299,8 @@
 @media (max-width: 480px) {
   .testimonialCard {
     padding: 15px;
-    margin: 0 10px;
-    min-height: 280px;
+    margin: 0 5px; /* Smaller margins */
+    min-height: 260px;
   }
   
   .quoteIcon {
@@ -291,6 +314,12 @@
   }
   
   .controlsWrapper {
-    padding: 0 30px;
+    padding: 0 25px; /* Reduce padding for smaller screens */
+  }
+
+  .testimonialText {
+    font-size: 0.95rem;
+    overflow-y: auto; /* Allow scrolling if text is too long */
+    max-height: 120px; /* Limit height */
   }
 }
