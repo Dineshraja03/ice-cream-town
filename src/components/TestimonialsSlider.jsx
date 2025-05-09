@@ -230,6 +230,59 @@ const TestimonialsSlider = () => {
     };
   }, [activeIndex, isMobile, isDragging, autoplayPaused]);
 
+  // Add this effect to your component
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    
+    // Manual event handlers that can specify options
+    const touchStartHandler = (e) => {
+      handleTouchStart(e);
+    };
+    
+    const touchMoveHandler = (e) => {
+      // Handle touch move without preventDefault
+      if (!sliderRef.current || !cardRef.current) return;
+      
+      const touch = e.touches[0];
+      const currentX = touch.clientX;
+      const diff = currentX - touchStartRef.current;
+      
+      const cardWidth = cardRef.current.offsetWidth + 20; // mobile margin
+      const maxMove = cardWidth;
+      
+      let limitedDiff;
+      if (isMobile) {
+        limitedDiff = Math.sign(diff) * Math.min(Math.abs(diff) * 0.8, maxMove);
+      } else {
+        const dampingFactor = 0.3;
+        limitedDiff = Math.sign(diff) * Math.min(Math.abs(diff) * dampingFactor, cardWidth / 2);
+      }
+      
+      const newOffset = dragOffsetRef.current + limitedDiff;
+      sliderRef.current.style.transform = `translateX(${newOffset}px)`;
+      dragOffsetRef.current = newOffset;
+    };
+    
+    const touchEndHandler = (e) => {
+      handleTouchEnd(e);
+    };
+    
+    // Add event listeners with passive option explicitly set
+    slider.addEventListener('touchstart', touchStartHandler, { passive: true });
+    slider.addEventListener('touchmove', touchMoveHandler, { passive: true });
+    slider.addEventListener('touchend', touchEndHandler, { passive: true });
+    
+    // Clean up
+    return () => {
+      if (slider) {
+        slider.removeEventListener('touchstart', touchStartHandler);
+        slider.removeEventListener('touchmove', touchMoveHandler);
+        slider.removeEventListener('touchend', touchEndHandler);
+      }
+    };
+  }, [isMobile]); // Re-add listeners if mobile state changes
+
   // Pause autoplay on hover for desktop
   const handleMouseEnter = () => {
     if (!isMobile) {
@@ -511,9 +564,6 @@ const TestimonialsSlider = () => {
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
             style={{ 
               cursor: isDragging ? 'grabbing' : 'grab',
               transition: isTransitioning.current ? 'transform 0.3s ease' : 'none',
