@@ -13,12 +13,12 @@
 .sectionTitle {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
-  color: #4a2511;
+  color: #f600af;
 }
 
 .sectionSubtitle {
   font-size: 1.1rem;
-  color: #8b6b4f;
+  color: #f82dbec4;
 }
 
 .sliderContainer {
@@ -80,7 +80,7 @@
 
 .quoteIcon {
   font-size: 1.5rem;
-  color: #ffd9b7;
+  color: #f600af;
   margin-bottom: 1rem;
 }
 
