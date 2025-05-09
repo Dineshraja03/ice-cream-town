@@ -78,7 +78,7 @@ const Navbar = () => {
                     ))}
                 </ul>
                 
-                <div className={styles.overlayTitle}>Om Thiru Deena</div>
+                <div className={styles.overlayTitle}>Om Thiru Deena </div>
                 
                 <div className={styles.menuButton} onClick={toggleMenu}>
                     {isMenuOpen ? <FaTimes /> : <FaBars />}

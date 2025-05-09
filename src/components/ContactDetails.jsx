@@ -15,9 +15,9 @@ const ContactDetails = () => {
                     <FaPhoneAlt className={styles.icon} />
                     Franchise Enquiry: +91 9087677680
                 </a>
-                <a href="mailto:info@icecreamparlour.com" className={styles.button}>
+                <a href="mailto:icecreamtown001@gmail.com" className={styles.button}>
                     <FaEnvelope className={styles.icon} />
-                    Email: info@icecreamparlour.com
+                    Email: icecreamtown001@gmail.com
                 </a>
                 <a
                     href="https://maps.app.goo.gl/8PZv9ov37Ejwkqps6"

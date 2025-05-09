@@ -21,7 +21,7 @@ const HeroSection = () => {
     return (
         <div className={styles.heroSection}>
             <div className={styles.textContent}>
-                <h1>Bringing Sweet Moments to Life</h1>
+                <h1>Welcome to <br/>Ice Cream Town</h1>
                 <p>Discover the finest ice creams and desserts crafted just for you.</p>
                 <Link to="/order" className={styles.ctaButton}>
                     Order Now

@@ -19,3 +19,24 @@
   padding: 10px;
   background-color: #fff;
 }
+
+.homepage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.contentSections {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  z-index: 5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .homepage {
+    padding-top: 0;
+  }
+}

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../styles/EventGallery.module.css';
+import { FaSync, FaUmbrella } from 'react-icons/fa';
 import collage1 from '../assets/store/1.jpg';
 import collage2 from '../assets/store/2.jpg';
 import collage3 from '../assets/store/3.jpg';
@@ -16,32 +17,81 @@ import collage13 from '../assets/store/13.jpg';
 import collage14 from '../assets/store/14.jpg';
 import collage15 from '../assets/store/15.jpg';
 
+
+//decoration images
+import d1 from '../assets/decoration/deco1.jpg';
+import d2 from '../assets/decoration/deco2.jpg';
+import d3 from '../assets/decoration/deco3.jpg';
+import d4 from '../assets/decoration/deco4.jpg';
+// Using the same images temporarily - replace these with your decoration images
+const decoration1 = d1;
+const decoration2 = d2;
+const decoration3 = d3;
+const decoration4 = d4;
+
+
 const EventGallery = () => {
-    useEffect(() => {
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const loadInstagramScript = () => {
+        // Remove any existing Instagram script
+        const existingScript = document.querySelector('script[src*="instagram.com/embed.js"]');
+        if (existingScript) {
+            existingScript.remove();
+        }
+
         // Load the Instagram embed script
         const script = document.createElement('script');
         script.src = '//www.instagram.com/embed.js';
         script.async = true;
         document.body.appendChild(script);
+    };
+
+    useEffect(() => {
+        loadInstagramScript();
     }, []);
+
+    const handleRefresh = () => {
+        setIsRefreshing(true);
+        
+        // Reprocess Instagram embeds
+        if (window.instgrm) {
+            window.instgrm.Embeds.process();
+        } else {
+            loadInstagramScript();
+        }
+        
+        // Animation timing
+        setTimeout(() => {
+            setIsRefreshing(false);
+        }, 1000);
+    };
 
     // Collage images data
     const collageImages = [
         { src: collage8, size: "large" },
         { src: collage2, size: "small" },
         { src: collage3, size: "small" },
-        { src: collage4, size: "medium" },
-        { src: collage5, size: "large" },
+        { src: collage4,  size: "medium" },
+        { src: collage5,  size: "large" },
         { src: collage6, size: "small" },
-        { src: collage7, size: "small" },
-        { src: collage1, size: "medium" },
-        { src: collage9, size: "small" },
+        { src: collage7,  size: "small" },
+        { src: collage1,  size: "medium" },
+        { src: collage9,  size: "small" },
         { src: collage10, size: "small" },
         { src: collage11, size: "medium" },
         { src: collage12, size: "large" },
         { src: collage13, size: "medium" },
         { src: collage14, size: "medium" },
         { src: collage15, size: "large" },
+    ];
+
+    // Decoration images data
+    const decorationImages = [
+        { src: decoration1, alt: "Party Setup", size: "large" },
+        { src: decoration2, alt: "Birthday Decoration", size: "large" },
+        { src: decoration3, alt: "Birthday Decoration", size: "small" },
+        { src: decoration4, alt: "Birthday Event ", size: "small" },
     ];
 
     return (
@@ -61,7 +111,34 @@ const EventGallery = () => {
                 </div>
             </div>
 
-            <h2 className={styles.reelTitle}>Celebration Highlights</h2>
+            {/* New Decoration Highlights Section */}
+            <div className={styles.collageSection}>
+                <h3 className={styles.collageTitle}>
+                    <FaUmbrella className={styles.titleIcon} /> Decoration Highlights
+                </h3>
+                <div className={styles.collageContainer}>
+                    {decorationImages.map((image, index) => (
+                        <div key={index} className={`${styles.collageItem} ${styles[image.size]}`}>
+                            <img src={image.src} alt={image.alt} loading="lazy" />
+                            <div className={styles.overlay}>
+                                <p>{image.alt}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className={styles.titleContainer}>
+                <h2 className={styles.reelTitle}>Celebration Highlights</h2>
+                <button 
+                    className={`${styles.refreshButton} ${isRefreshing ? styles.spinning : ''}`} 
+                    onClick={handleRefresh}
+                    aria-label="Refresh Instagram content"
+                >
+                    <FaSync />
+                </button>
+            </div>
+            
             <div className={styles.imageGrid}>
                 {/* Instagram Reel 1 */}
                 <div className={styles.reelContainer}>

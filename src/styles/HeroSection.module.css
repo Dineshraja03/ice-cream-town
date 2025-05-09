@@ -1,16 +1,15 @@
 .heroSection {
-    position: absolute;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100vh; /* Full viewport height */
-    padding: 0 50px;
+    min-height: 10vh; /* Almost full viewport height */
+    width: 100%;
+    padding: 50px 80px;
     background-color: #f9f9f900;
     overflow: hidden;
     z-index: 10;
-    top: 220px;
-    left: 85px;
-
+    position: relative;
+    margin-top: 10px; /* Space for fixed navbar */
 }
 
 .heroSection .overlay {
@@ -36,19 +35,23 @@
     color: #333;
     text-align: left;
     z-index: 11;
+    max-width: 600px;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
 .textContent h1 {
-    font-size: 3.5rem;
+    font-size: 4rem;
     margin: 0 0 20px;
     font-family: 'Poppins', sans-serif;
     line-height: 1.2;
+    color: #333;
 }
 
 .textContent p {
     font-size: 1.5rem;
     margin: 20px 0;
     font-family: 'Roboto', sans-serif;
+    color: #555;
 }
 
 .textContent .ctaButton {
@@ -64,11 +67,13 @@
     text-transform: uppercase;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    margin-top: 10px;
 }
 
 .textContent .ctaButton:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 15px rgba(255, 87, 34, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(246, 0, 175, 0.3);
 }
 
 .carousel {
@@ -78,8 +83,7 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    overflow: hidden;
-    padding-left: 100px;
+    overflow: visible;
 }
 
 .wheel {
@@ -92,6 +96,7 @@
     align-items: center;
     transform: rotate(0deg);
     animation: spin 9s linear infinite;
+    z-index: 5;
 }
 
 .carouselItem {
@@ -100,6 +105,7 @@
     left: 20%;
     transform-origin: center center;
     transition: transform 0.5s ease;
+    
 }
 
 .carouselItem img {
@@ -107,6 +113,7 @@
     height: auto;
     object-fit: contain;
     transition: transform 0.3s ease;
+    z-index: 10000000;
 }
 
 .carouselItem.active img {
@@ -135,47 +142,105 @@
     }
 }
 
-/* Existing styles... */
-
-@media (max-width: 768px) {
-    html, body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
-    }
-
+/* Large screens optimization */
+@media (min-width: 1440px) {
     .heroSection {
-        margin-top: 200px;
+        padding: 50px 120px;
+    }
+    
+    .textContent h1 {
+        font-size: 4.5rem;
+    }
+    
+    .wheel {
+        width: 400px;
+        height: 400px;
+    }
+    
+    .carouselItem img {
+        width: 120px;
+    }
+}
+
+/* Medium screens */
+@media (max-width: 1200px) {
+    .heroSection {
+        padding: 40px 60px;
+    }
+    
+    .textContent h1 {
+        font-size: 3.5rem;
+    }
+    
+    .carouselItem img {
+        width: 90px;
+    }
+}
+
+/* Tablet screens */
+@media (max-width: 992px) {
+    .heroSection {
+        padding: 30px 40px;
+    }
+    
+    .textContent h1 {
+        font-size: 3rem;
+    }
+    
+    .wheel {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+/* Mobile screens */
+@media (max-width: 768px) {
+    .heroSection {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: auto; /* Allow content to adjust dynamically */
-        padding: 20px;
-        top: 50px; /* Adjust positioning for mobile */
-        left: 0; /* Center-align for mobile */
-        z-index: 0;
+        height: auto;
+        padding: 30px 20px;
+        margin-top: 60px;
     }
 
     .textContent {
-        text-align: center; /* Center-align text for mobile */
+        text-align: center;
         margin-bottom: 20px;
+        max-width: 100%;
     }
 
     .textContent h1 {
-        font-size: 2.5rem; /* Reduce font size for mobile */
+        font-size: 2.5rem;
         line-height: 1.3;
     }
 
     .textContent p {
-        font-size: 1.2rem; /* Adjust paragraph font size */
+        font-size: 1.2rem;
     }
 
     .textContent .ctaButton {
-        font-size: 1rem; /* Adjust button size */
+        font-size: 1rem;
         padding: 10px 20px;
     }
 
     .carousel {
         display: none; /* Hide the entire carousel on mobile */
+    }
+}
+
+/* Small mobile screens */
+@media (max-width: 480px) {
+    .heroSection {
+        padding: 20px 15px;
+        margin-top: 50px;
+    }
+    
+    .textContent h1 {
+        font-size: 2rem;
+    }
+    
+    .textContent p {
+        font-size: 1rem;
     }
 }

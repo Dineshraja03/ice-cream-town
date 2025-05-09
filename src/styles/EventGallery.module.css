@@ -10,7 +10,6 @@ h2 {
     color: #f600af;
     margin-bottom: 20px;
     font-family: 'Poppins', sans-serif;
-  
 }
 
 .reelTitle {
@@ -148,6 +147,51 @@ h2 {
     font-weight: 600;
 }
 
+/* Add these styles to your existing EventGallery.module.css */
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.refreshButton {
+  background-color: #f600af;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.refreshButton:hover {
+  transform: scale(1.1);
+  background-color: #e00098;
+}
+
+.refreshButton:active {
+  transform: scale(0.95);
+}
+
+.spinning {
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .imageGrid {
@@ -184,6 +228,16 @@ h2 {
     
     .reelTitle {
         font-size: 1.8rem;
+    }
+
+    .titleContainer {
+        gap: 10px;
+    }
+    
+    .refreshButton {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
     }
 }
 

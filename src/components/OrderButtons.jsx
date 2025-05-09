@@ -7,7 +7,7 @@ const OrderButtons = () => {
             <h2 className={styles.title}>Order Now</h2>
             <div className={styles.buttonContainer}>
                 <a
-                    href="https://www.swiggy.com/city/palani/om-thiru-deena-icecream-sivagiri-patti-village-palani-rest853342"
+                    href="https://www.swiggy.com/city/palani/ice-cream-town-palani-rest1061704"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`${styles.button} ${styles.swiggyButton}`}
@@ -15,7 +15,7 @@ const OrderButtons = () => {
                     Order on Swiggy
                 </a>
                 <a
-                    href="https://www.zomato.com/palani/om-thiru-deena-icecream-palani-locality/order"
+                    href="https://www.zomato.com/palani/ice-cream-town-palani-locality/reviews"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`${styles.button} ${styles.zomatoButton}`}

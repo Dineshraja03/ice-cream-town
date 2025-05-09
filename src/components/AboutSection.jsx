@@ -8,10 +8,7 @@ import {
     FaCity,
     FaIndustry,
     FaTheaterMasks,
-    FaBuilding,
-    FaLinkedin,
-    FaFacebook,
-    FaInstagram
+    FaBuilding
 } from 'react-icons/fa';
 import videoSrc from '../assets/About.webm';
 // Import sample images (replace with your actual image paths)
@@ -30,17 +27,6 @@ import collage12 from '../assets/store/12.jpg';
 import collage13 from '../assets/store/13.jpg';
 import collage14 from '../assets/store/14.jpg';
 import collage15 from '../assets/store/15.jpg';
-
-// Import team member images (replace with actual team photos)
-// import ceoImage from '../assets/team/ceo.jpg';
-// import founderImage from '../assets/team/founder.jpg';
-// import cofounderImage from '../assets/team/cofounder.jpg';
-// import managerImage from '../assets/team/manager.jpg';
-// import staff1Image from '../assets/team/staff1.jpg';
-// import staff2Image from '../assets/team/staff2.jpg';
-// import staff3Image from '../assets/team/staff3.jpg';
-// import staff4Image from '../assets/team/staff4.jpg';
-import pic from '../assets/images/product2.png'
 
 const AboutSection = () => {
     const [activeCard, setActiveCard] = useState(null);
@@ -100,7 +86,6 @@ const AboutSection = () => {
     // Collage images data
     const collageImages = [
         { src: collage8, alt: "Ice Cream", size: "large" },
-        
         { src: collage2, alt: "Ice Cream", size: "small" },
         { src: collage3, alt: "Jigarthanda", size: "small" },
         { src: collage4, alt: "Milkshake", size: "medium" },
@@ -115,93 +100,6 @@ const AboutSection = () => {
         { src: collage13, alt: "Ice Cream", size: "medium" },
         { src: collage14, alt: "Ice Cream", size: "medium" },
         { src: collage15, alt: "Ice Cream", size: "large" },
-    ];
-
-    // Team members data
-    const teamMembers = [
-        {
-            name: "Thiru deena",
-            role: "CEO",
-            image: pic,
-            description: "Leading the company with vision and innovation.",
-            social: {
-                linkedin: "https://linkedin.com/",
-                facebook: "https://facebook.com/",
-                instagram: "https://instagram.com/"
-            }
-        },
-        {
-            name: "founder",
-            role: "Founder",
-            image: pic,
-            description: "Started the company with a passion for quality ice cream.",
-            social: {
-                linkedin: "https://linkedin.com/",
-                facebook: "https://facebook.com/",
-                instagram: "https://instagram.com/"
-            }
-        },
-        {
-            name: "co-founder",
-            role: "Co-Founder",
-            image: pic,
-            description: "Managing operations and product development.",
-            social: {
-                linkedin: "https://linkedin.com/",
-                facebook: "https://facebook.com/",
-                instagram: "https://instagram.com/"
-            }
-        },
-        {
-            name: "management",
-            role: "Management",
-            image: pic,
-            description: "Overseeing day-to-day operations and team coordination.",
-            social: {
-                linkedin: "https://linkedin.com/",
-                facebook: "https://facebook.com/",
-                instagram: "https://instagram.com/"
-            }
-        },
-        {
-            name: "staff",
-            role: "staff",
-            image: pic,
-            description: "Creating innovative ice cream flavors and desserts.",
-            social: {
-                linkedin: "https://linkedin.com/",
-                instagram: "https://instagram.com/"
-            }
-        },
-        {
-            name: "staff",
-            role: "staff",
-            image: pic,
-            description: "Ensuring excellent customer service and experience.",
-            social: {
-                facebook: "https://facebook.com/",
-                instagram: "https://instagram.com/"
-            }
-        },
-        {
-            name: "staff",
-            role: "staff",
-            image: pic,
-            description: "Promoting our brand and managing social media.",
-            social: {
-                instagram: "https://instagram.com/"
-            }
-        },
-        {
-            name: "staff",
-            role: "staff",
-            image: pic,
-            description: "Maintaining our high standard of quality and taste.",
-            social: {
-                linkedin: "https://linkedin.com/",
-                facebook: "https://facebook.com/"
-            }
-        }
     ];
 
     useEffect(() => {
@@ -270,49 +168,6 @@ const AboutSection = () => {
                 </div>
             </div>
 
-            {/* Team Section - NEW */}
-            <div className={styles.teamSection}>
-                <h2 className={styles.teamTitle}>Meet Our Team</h2>
-                <p className={styles.teamSubtitle}>The passionate people behind our delicious ice creams</p>
-                
-                <div className={styles.teamGrid}>
-                    {teamMembers.map((member, index) => (
-                        <div key={index} className={styles.teamMember}>
-                            <div className={styles.memberImageContainer}>
-                                <img 
-                                    src={member.image} 
-                                    alt={`${member.name}, ${member.role}`} 
-                                    className={styles.memberImage}
-                                    loading="lazy"
-                                />
-                            </div>
-                            <div className={styles.memberInfo}>
-                                <h3 className={styles.memberName}>{member.name}</h3>
-                                <p className={styles.memberRole}>{member.role}</p>
-                                <p className={styles.memberDescription}>{member.description}</p>
-                                <div className={styles.socialLinks}>
-                                    {member.social.linkedin && (
-                                        <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer" className={styles.socialIcon}>
-                                            <FaLinkedin />
-                                        </a>
-                                    )}
-                                    {member.social.facebook && (
-                                        <a href={member.social.facebook} target="_blank" rel="noopener noreferrer" className={styles.socialIcon}>
-                                            <FaFacebook />
-                                        </a>
-                                    )}
-                                    {member.social.instagram && (
-                                        <a href={member.social.instagram} target="_blank" rel="noopener noreferrer" className={styles.socialIcon}>
-                                            <FaInstagram />
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
             {/* Cards Section */}
             <div className={styles.cardsSection}>
                 {cards.map((card, index) => (
@@ -343,7 +198,7 @@ const AboutSection = () => {
 
             {/* Image Collage Section */}
             <div className={styles.collageSection}>
-        <h3 className={styles.collageTitle}>Ice Cream  Town </h3>
+                <h3 className={styles.collageTitle}>Ice Cream Town</h3>
                 <div className={styles.collageContainer}>
                     {collageImages.map((image, index) => (
                         <div key={index} className={`${styles.collageItem} ${styles[image.size]}`}>
@@ -357,10 +212,7 @@ const AboutSection = () => {
             </div>
 
             {/* Homegrown Indian Brand Section */}
-            <div className={styles.homegrownSection}>
-                <h3 className={styles.homegrownTitle}>HOME GROWN BRAND</h3>
-                <p className={styles.homegrownSubtitle}>Over <strong>1000+</strong> Happy Customers</p>
-            </div>
+            
         </div>
     );
 };

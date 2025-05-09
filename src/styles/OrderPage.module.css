@@ -21,7 +21,6 @@
     font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: 10px; /* Reduced margin to move content higher */
-
 }
 
 .pageDescription {
@@ -29,7 +28,6 @@
     line-height: 1.6;
     max-width: 600px;
     margin: 0 auto;
-
 }
 
 .orderSection {
@@ -37,6 +35,82 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-bottom: 40px;
+}
+
+/* Catering Promo Section Styles */
+.cateringPromoSection {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto 60px;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cateringPromoSection:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(246, 0, 175, 0.15);
+}
+
+.cateringPromoContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cateringIcon {
+    font-size: 2.5rem;
+    color: #f600af;
+    margin-bottom: 15px;
+}
+
+.cateringTitle {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.cateringDescription {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 25px;
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+.cateringButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f600af;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.cateringButton:hover {
+    background-color: #d10090;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(246, 0, 175, 0.3);
+}
+
+.arrowIcon {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.cateringButton:hover .arrowIcon {
+    transform: translateX(4px);
 }
 
 /* Responsive Design */
@@ -47,5 +121,46 @@
 
     .pageDescription {
         font-size: 1rem;
+    }
+    
+    .cateringPromoSection {
+        padding: 25px 20px;
+        margin-bottom: 40px;
+    }
+    
+    .cateringTitle {
+        font-size: 1.5rem;
+    }
+    
+    .cateringDescription {
+        font-size: 1rem;
+    }
+    
+    .cateringButton {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cateringPromoSection {
+        padding: 20px 15px;
+    }
+    
+    .cateringIcon {
+        font-size: 2rem;
+    }
+    
+    .cateringTitle {
+        font-size: 1.3rem;
+    }
+    
+    .cateringDescription {
+        font-size: 0.9rem;
+    }
+    
+    .cateringButton {
+        padding: 10px 20px;
+        font-size: 0.9rem;
     }
 }
