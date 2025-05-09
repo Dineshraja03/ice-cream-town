@@ -144,7 +144,7 @@ const TestimonialsSlider = () => {
     }
   }, [dragOffset, testimonials.length, isMobile]);
 
-  // Check if device is mobile and setup autoplay
+  // Setup autoplay for both mobile and desktop
   useEffect(() => {
     // Function to check if the viewport is mobile size
     const checkIfMobile = () => {
@@ -155,19 +155,20 @@ const TestimonialsSlider = () => {
     // Check initially
     checkIfMobile();
     
-    // Setup autoplay on mobile
+    // Setup autoplay on both mobile and desktop
     const startAutoplay = () => {
       if (autoplayTimerRef.current) {
         clearInterval(autoplayTimerRef.current);
       }
       
-      if (isMobile) {
-        autoplayTimerRef.current = setInterval(() => {
-          if (!isDragging && !autoplayPaused && !isTransitioning.current) {
-            scrollTestimonials('right');
-          }
-        }, 3000); // Change slide every 3 seconds
-      }
+      // Set autoplay interval (2 seconds for desktop, 3 seconds for mobile)
+      const autoplayInterval = isMobile ? 3000 : 2000;
+      
+      autoplayTimerRef.current = setInterval(() => {
+        if (!isDragging && !autoplayPaused && !isTransitioning.current) {
+          scrollTestimonials('right');
+        }
+      }, autoplayInterval);
     };
     
     // Start autoplay
@@ -201,9 +202,8 @@ const TestimonialsSlider = () => {
       startAutoplay();
     };
     
-    // Add event listeners
-    window.addEventListener('resize', handleResize);
-    document.addEventListener('visibilitychange', () => {
+    // Handle page visibility changes
+    const handleVisibilityChange = () => {
       if (document.hidden) {
         // Clear autoplay when page is not visible
         clearInterval(autoplayTimerRef.current);
@@ -211,7 +211,11 @@ const TestimonialsSlider = () => {
         // Restart autoplay when page becomes visible again
         startAutoplay();
       }
-    });
+    };
+    
+    // Add event listeners
+    window.addEventListener('resize', handleResize);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     
     // Clean up
     return () => {
@@ -222,9 +226,22 @@ const TestimonialsSlider = () => {
         cancelAnimationFrame(animationRef.current);
       }
       window.removeEventListener('resize', handleResize);
-      document.removeEventListener('visibilitychange', () => {});
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [activeIndex, isMobile, isDragging, autoplayPaused]);
+
+  // Pause autoplay on hover for desktop
+  const handleMouseEnter = () => {
+    if (!isMobile) {
+      setAutoplayPaused(true);
+    }
+  };
+  
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setAutoplayPaused(false);
+    }
+  };
 
   // Handle mouse events for dragging
   const handleMouseDown = (e) => {
@@ -272,27 +289,36 @@ const TestimonialsSlider = () => {
   };
 
   const handleTouchMove = (e) => {
-    if (!sliderRef.current) return;
+    if (!sliderRef.current || !cardRef.current) return;
     
     // Only get the horizontal movement
     const touch = e.touches[0];
     const currentX = touch.clientX;
     const diff = currentX - touchStartRef.current;
     
-    // Limit the distance to only allow one card shift at maximum
+    // Only prevent default if horizontal swipe is significant
     if (Math.abs(diff) > 10) {
-      // Prevent vertical scrolling only for significant horizontal swipes
       e.preventDefault();
     }
     
-    // Add resistance to make the swipe more controlled
-    // Use a damping factor to limit the swipe distance - allows swipe movement 
-    // but has resistance for longer swipes
-    const dampingFactor = 0.3;
-    const limitedDiff = Math.sign(diff) * Math.min(Math.abs(diff) * dampingFactor, 
-                        cardRef.current ? cardRef.current.offsetWidth / 2 : 100);
+    // More direct response for mobile - reduce damping for better feel
+    const cardWidth = cardRef.current.offsetWidth + 20; // mobile margin
     
-    // Apply the position with resistance
+    // Calculate maximum allowed movement (one card width)
+    const maxMove = cardWidth;
+    
+    // Apply movement with less resistance for mobile
+    let limitedDiff;
+    if (isMobile) {
+      // More direct response for mobile
+      limitedDiff = Math.sign(diff) * Math.min(Math.abs(diff) * 0.8, maxMove);
+    } else {
+      // Original damping for desktop
+      const dampingFactor = 0.3;
+      limitedDiff = Math.sign(diff) * Math.min(Math.abs(diff) * dampingFactor, cardWidth / 2);
+    }
+    
+    // Apply the position with appropriate resistance
     const newOffset = dragOffsetRef.current + limitedDiff;
     
     // Apply the new position
@@ -315,41 +341,41 @@ const TestimonialsSlider = () => {
     const marginSize = isMobile ? 20 : 40;
     const cardWidth = cardRef.current.offsetWidth + marginSize;
     
-    // Determine whether to move forward or backward by just one card
-    // We'll snap to the nearest card, but limit movement to max one card
-    let targetIndex = activeIndex;
-    const diffFromPosition = Math.abs(dragOffsetRef.current + activeIndex * cardWidth);
+    // Calculate current position relative to active index
+    const currentPosition = activeIndex * cardWidth;
+    const currentOffset = Math.abs(dragOffsetRef.current);
+    const diffFromPosition = Math.abs(currentOffset - currentPosition);
     
-    if (diffFromPosition > cardWidth * 0.15) {
-      // If moved more than 15% of card width, determine direction
-      if (dragOffsetRef.current > -(activeIndex * cardWidth)) {
-        // Moving backward (right)
-        targetIndex = Math.max(0, activeIndex - 1);
+    // Determine which direction to move based on swipe
+    let targetIndex = activeIndex;
+    const moveThreshold = isMobile ? 0.1 * cardWidth : 0.15 * cardWidth;
+    
+    if (diffFromPosition > moveThreshold) {
+      if (dragOffsetRef.current > -currentPosition) {
+        // Moving right (prev)
+        targetIndex = (activeIndex - 1 + testimonials.length) % testimonials.length;
       } else {
-        // Moving forward (left)
-        targetIndex = Math.min(testimonials.length - 1, activeIndex + 1);
+        // Moving left (next)
+        targetIndex = (activeIndex + 1) % testimonials.length;
       }
     }
     
-    // Handle loop from last to first and vice versa
-    if (targetIndex === 0 && activeIndex === testimonials.length - 1) {
-      // We're at the end, going back to the beginning
-      const loopBackOffset = -targetIndex * cardWidth;
-      dragOffsetRef.current = loopBackOffset;
-      sliderRef.current.style.transform = `translateX(${loopBackOffset}px)`;
-      setDragOffset(loopBackOffset);
-    } else if (targetIndex === testimonials.length - 1 && activeIndex === 0) {
-      // We're at the beginning, going to the end
-      const loopEndOffset = -targetIndex * cardWidth;
-      dragOffsetRef.current = loopEndOffset;
-      sliderRef.current.style.transform = `translateX(${loopEndOffset}px)`;
-      setDragOffset(loopEndOffset);
-    } else {
-      // Normal case: calculate the target offset
-      const targetOffset = -targetIndex * cardWidth;
-      dragOffsetRef.current = targetOffset;
-      sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
-      setDragOffset(targetOffset);
+    // Calculate the final target offset
+    const targetOffset = -targetIndex * cardWidth;
+    
+    // Apply the snap with transition
+    sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
+    dragOffsetRef.current = targetOffset;
+    setDragOffset(targetOffset);
+    
+    // Ensure card is properly centered after sliding (especially for mobile)
+    if (isMobile) {
+      setTimeout(() => {
+        if (sliderRef.current) {
+          // Reconfirm the position is exactly at the target offset
+          sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
+        }
+      }, 310); // Just after the transition completes
     }
   };
 
@@ -375,6 +401,15 @@ const TestimonialsSlider = () => {
     dragOffsetRef.current = targetOffset;
     sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
     setDragOffset(targetOffset);
+    
+    // Ensure proper centering for mobile
+    if (isMobile) {
+      setTimeout(() => {
+        if (sliderRef.current) {
+          sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
+        }
+      }, 310); // Just after transition completes
+    }
   };
 
   // Function to handle dot navigation
@@ -398,9 +433,9 @@ const TestimonialsSlider = () => {
     }, 300);
   };
 
-  // Function to scroll testimonials - fixed to properly handle nav buttons
+  // Function to scroll testimonials - improved for better mobile handling
   const scrollTestimonials = (direction) => {
-    if (!sliderRef.current || !cardRef.current) return;
+    if (!sliderRef.current || !cardRef.current || isTransitioning.current) return;
     
     // Set transitioning flag to prevent multiple clicks
     isTransitioning.current = true;
@@ -433,6 +468,13 @@ const TestimonialsSlider = () => {
     // Allow transitions again after animation completes
     setTimeout(() => {
       isTransitioning.current = false;
+      
+      // Ensure proper centering for mobile
+      if (isMobile) {
+        if (sliderRef.current) {
+          sliderRef.current.style.transform = `translateX(${targetOffset}px)`;
+        }
+      }
     }, 300);
   };
 
@@ -462,9 +504,13 @@ const TestimonialsSlider = () => {
           </button>
         )}
         
-        <div className={styles.testimonialsWrapper}>
+        <div 
+          className={styles.testimonialsWrapper}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <div 
-            className={styles.testimonialSlider}
+            className={`${styles.testimonialSlider} ${isMobile ? styles.mobileSlider : ''}`}
             ref={sliderRef}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
@@ -479,82 +525,12 @@ const TestimonialsSlider = () => {
               transform: `translateX(${dragOffset}px)`
             }}
           >
-            {/* Prepend the last items for infinite loop */}
-            {testimonials.slice(-2).map((testimonial, index) => (
-              <div 
-                key={`pre-testimonial-${testimonial.id}-${index}`}
-                className={styles.testimonialCard}
-                style={{ opacity: isMobile ? 0 : 1, visibility: isMobile ? 'hidden' : 'visible' }}
-              >
-                <div className={styles.quoteIcon}>
-                  <FaQuoteLeft />
-                </div>
-                <p className={styles.testimonialText}>{testimonial.text}</p>
-                <div className={styles.ratingContainer}>
-                  {renderStars(testimonial.rating)}
-                </div>
-                <div className={styles.testimonialAuthor}>
-                  <img 
-                    src={testimonial.image} 
-                    alt={testimonial.name} 
-                    className={styles.authorImage}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = 'https://via.placeholder.com/55?text=User';
-                    }}
-                  />
-                  <div>
-                    <h4 className={styles.authorName}>{testimonial.name}</h4>
-                    <div className={styles.authorMeta}>
-                      <p className={styles.authorRole}>{testimonial.role}</p>
-                      <p className={styles.reviewTime}>{testimonial.time}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-            
-            {/* Main testimonials */}
+            {/* Main testimonials - on mobile, we don't need the extra duplicates */}
             {testimonials.map((testimonial, index) => (
               <div 
                 key={`testimonial-${testimonial.id}-${index}`}
-                className={styles.testimonialCard}
+                className={`${styles.testimonialCard} ${isMobile ? styles.mobileCard : ''}`}
                 ref={index === 0 ? cardRef : null}
-              >
-                <div className={styles.quoteIcon}>
-                  <FaQuoteLeft />
-                </div>
-                <p className={styles.testimonialText}>{testimonial.text}</p>
-                <div className={styles.ratingContainer}>
-                  {renderStars(testimonial.rating)}
-                </div>
-                <div className={styles.testimonialAuthor}>
-                  <img 
-                    src={testimonial.image} 
-                    alt={testimonial.name} 
-                    className={styles.authorImage}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = 'https://via.placeholder.com/55?text=User';
-                    }}
-                  />
-                  <div>
-                    <h4 className={styles.authorName}>{testimonial.name}</h4>
-                    <div className={styles.authorMeta}>
-                      <p className={styles.authorRole}>{testimonial.role}</p>
-                      <p className={styles.reviewTime}>{testimonial.time}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-            
-            {/* Append first items for infinite loop */}
-            {testimonials.slice(0, 2).map((testimonial, index) => (
-              <div 
-                key={`post-testimonial-${testimonial.id}-${index}`}
-                className={styles.testimonialCard}
-                style={{ opacity: isMobile ? 0 : 1, visibility: isMobile ? 'hidden' : 'visible' }}
               >
                 <div className={styles.quoteIcon}>
                   <FaQuoteLeft />
