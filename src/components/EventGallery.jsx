@@ -23,11 +23,6 @@ import d1 from '../assets/decoration/deco1.jpg';
 import d2 from '../assets/decoration/deco2.jpg';
 import d3 from '../assets/decoration/deco3.jpg';
 import d4 from '../assets/decoration/deco4.jpg';
-// Using the same images temporarily - replace these with your decoration images
-const decoration1 = d1;
-const decoration2 = d2;
-const decoration3 = d3;
-const decoration4 = d4;
 
 
 const EventGallery = () => {
@@ -88,10 +83,10 @@ const EventGallery = () => {
 
     // Decoration images data
     const decorationImages = [
-        { src: decoration1, alt: "Party Setup", size: "large" },
-        { src: decoration2, alt: "Birthday Decoration", size: "large" },
-        { src: decoration3, alt: "Birthday Decoration", size: "small" },
-        { src: decoration4, alt: "Birthday Event ", size: "small" },
+        { src: d1, alt: "Party Setup", size: "large" },
+        { src: d2, alt: "Birthday Decoration", size: "large" },
+        { src: d3, alt: "Birthday Decoration", size: "small" },
+        { src: d4, alt: "Birthday Event ", size: "small" },
     ];
 
     return (
