@@ -12,7 +12,7 @@
 
 .title {
   font-size: 2.5rem;
-  color: #f600af;
+  color: #ff56a2;
   margin-bottom: 15px;
   font-family: 'Poppins', sans-serif;
   position: relative;
@@ -26,7 +26,7 @@
   left: 50%;
   width: 80px;
   height: 4px;
-  background-color: #f600af;
+  background-color: #ff56a2;
   transform: translateX(-50%);
   border-radius: 2px;
 }
@@ -70,12 +70,12 @@
   justify-content: center;
   margin: 0 auto 20px;
   font-size: 30px;
-  color: #f600af;
+  color: #ff56a2;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .serviceCard:hover .iconContainer {
-  background-color: #f600af;
+  background-color: #ff56a2;
   color: white;
 }
 
@@ -113,7 +113,7 @@
   background: #fff;
   padding: 0 20px;
   position: relative;
-  color: #f600af;
+  color: #ff56a2;
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   font-size: 1.2rem;
@@ -136,7 +136,7 @@
 
 .galleryIcon {
   margin-right: 10px;
-  color: #f600af;
+  color: #ff56a2;
 }
 
 .gallerySubtitle {
@@ -216,7 +216,7 @@
 .ctaButton {
   display: inline-block;
   padding: 14px 30px;
-  background-color: #f600af;
+  background-color: #ff56a2;
   color: white;
   text-decoration: none;
   border-radius: 50px;

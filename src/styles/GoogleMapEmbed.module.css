@@ -4,7 +4,7 @@
     max-width: 1000px;
     height: 600px;
     margin: 20px auto;
-    border: 2px solid #f600af;
+    border: 2px solid #ff56a2;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -27,7 +27,7 @@
 
 .mapButton {
     padding: 10px 20px;
-    background-color: #f600af;
+    background-color: #ff56a2;
     color: #fff;
     font-size: 14px;
     font-weight: bold;
@@ -42,7 +42,7 @@
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     background-color: #ffffff;
-    color: #f600af;
+    color: #ff56a2;
 }
 
 /* Responsive Design */

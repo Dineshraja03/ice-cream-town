@@ -7,7 +7,7 @@
     padding: 10px 20px; /* Reduced padding to move content higher */
     background: #f9f9f9; /* Gradient background */
     min-height: 100vh;
-    color: #f600af;
+    color: #ff56a2;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -64,7 +64,7 @@
 
 .cateringIcon {
     font-size: 2.5rem;
-    color: #f600af;
+    color: #ff56a2;
     margin-bottom: 15px;
 }
 
@@ -86,7 +86,7 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background-color: #f600af;
+    background-color: #ff56a2;
     color: white;
     border: none;
     border-radius: 50px;

@@ -16,7 +16,7 @@
     margin-top: 100px;
     width: 100%;
     text-align: center;
-    background-color: #f600af; /* Red background */
+    background-color: #ff56a2; /* Red background */
     color: #fff; /* White text */
     padding: 20px 0;
     margin-bottom: 20px;
@@ -65,7 +65,7 @@
 
 .title {
     font-size: 2.5rem;
-    color: #f600af;
+    color: #ff56a2;
     margin-bottom: 20px;
     font-family: 'Poppins', sans-serif;
 }
@@ -97,7 +97,7 @@
     margin-top: 200px;
     width: 200px;
     margin: 10px;
-    border: 2px solid #f600af;
+    border: 2px solid #ff56a2;
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
@@ -110,12 +110,12 @@
 .specialty:hover {
     transform: scale(1.1);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    background-color: #f600af;
+    background-color: #ff56a2;
 }
 
 .iconContainer {
     font-size: 3rem;
-    color: #f600af;
+    color: #ff56a2;
     margin-bottom: 10px;
     transition: color 0.3s;
 }
@@ -126,7 +126,7 @@
 
 .specialtyName {
     font-size: 1.5rem;
-    color: #f600af;
+    color: #ff56a2;
     margin: 10px 0;
     font-family: 'Poppins', sans-serif;
     transition: color 0.3s;
@@ -189,12 +189,12 @@
     max-width: 180px;
     display: flex;
     padding: 20px;
-    border: 2px solid #f600af;
+    border: 2px solid #ff56a2;
     border-radius: 10px;
     text-align: center;
     background-color: #fff;
     transition: transform 0.3s, box-shadow 0.3s;
-    background-color: #f600af;
+    background-color: #ff56a2;
     
 }
 
@@ -510,7 +510,7 @@
 
 .teamTitle {
     font-size: 2.5rem;
-    color: #f600af;
+    color: #ff56a2;
     margin-bottom: 10px;
     font-family: 'Poppins', sans-serif;
 }
@@ -539,7 +539,7 @@
 /* Highlight the CEO and Founder */
 .teamGrid > div:nth-child(1),
 .teamGrid > div:nth-child(2) {
-    border-bottom: 3px solid #f600af;
+    border-bottom: 3px solid #ff56a2;
 }
 
 .teamMember {
@@ -586,7 +586,7 @@
 
 .memberRole {
     font-size: 1rem;
-    color: #f600af;
+    color: #ff56a2;
     font-weight: bold;
     margin: 0 0 10px;
     font-family: 'Roboto', sans-serif;
@@ -607,7 +607,7 @@
 }
 
 .socialIcon {
-    color: #f600af;
+    color: #ff56a2;
     font-size: 1.2rem;
     transition: transform 0.3s ease, color 0.3s ease;
 }

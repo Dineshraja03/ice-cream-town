@@ -40,14 +40,14 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 60px;
-  color: #f600af;
+  color: #ff56a2;
   animation: melt 3s ease-in-out infinite;
   z-index: 2;
 }
 
 .drip1, .drip2 {
   position: absolute;
-  background-color: #f600af;
+  background-color: #ff56a2;
   border-radius: 50%;
   z-index: 3;
 }
@@ -71,7 +71,7 @@
 .loaderText {
   font-family: 'Poppins', sans-serif;
   font-size: 1.2rem;
-  color: #f600af;
+  color: #ff56a2;
   margin-top: 15px;
   animation: fadeInOut 1.5s ease-in-out infinite;
 }
