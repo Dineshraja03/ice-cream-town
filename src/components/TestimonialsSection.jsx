@@ -215,7 +215,7 @@ const TestimonialsSection = () => {
     <section className={styles.testimonialsSection}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>What Our Customers Say</h2>
-        <p className={styles.sectionSubtitle}>Hear from the people who've experienced our delicious treats</p>
+        <p className={styles.sectionSubtitle}>Hear from the people who've experienced our<br/> delicious treats</p>
       </div>
       
       {isMobile ? (
